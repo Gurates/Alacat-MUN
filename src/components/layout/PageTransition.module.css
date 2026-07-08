@@ -1,0 +1,57 @@
+.pageContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.globalBlocker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: all; /* Block clicks */
+  overflow: hidden;
+}
+
+.waveOverlay {
+  position: absolute;
+  left: 0;
+  width: 100vw;
+  height: 120vh; /* Extra tall to cover everything */
+  display: flex;
+  flex-direction: column;
+}
+
+.topWave {
+  width: 100%;
+  height: auto;
+  min-height: 15vh;
+  display: block;
+  transform: scaleY(-1); /* Flips the wave so it looks like an incoming tide */
+}
+
+.waterBody {
+  flex: 1;
+  width: 100%;
+  background-color: rgba(11, 95, 165, 0.95); /* Matches #0B5FA5 with slight transparency */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.bottomWave {
+  width: 100%;
+  height: auto;
+  min-height: 15vh;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waveOverlay {
+    display: none;
+  }
+  .pageContent {
+    transition: opacity 0.3s ease;
+  }
+}

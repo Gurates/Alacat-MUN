@@ -1,0 +1,175 @@
+.homeContainer {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  min-height: 100vh;
+}
+
+.heroSection {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.dates {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.hashtag {
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+}
+
+/* Parallax Waves Backgrounds */
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-size: 1000px 100px;
+  background-repeat: repeat-x;
+  transform: translate3d(0, 0, 0);
+}
+
+.wave1 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,100 C150,100 350,0 500,0 C650,0 850,100 1000,100 L1000,100 L0,100 Z' fill='%23000000' opacity='1'/%3E%3C/svg%3E");
+  z-index: 3;
+  height: 150px;
+  bottom: -10px;
+  opacity: 1;
+}
+
+.wave2 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,50 C200,100 300,0 500,0 C700,0 800,100 1000,50 L1000,100 L0,100 Z' fill='%230a0f1a' opacity='0.8'/%3E%3C/svg%3E");
+  z-index: 2;
+  height: 250px;
+  bottom: -10px;
+}
+
+.wave3 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C100,50 400,100 500,100 C600,100 900,50 1000,0 L1000,100 L0,100 Z' fill='%230f172a' opacity='0.5'/%3E%3C/svg%3E");
+  z-index: 1;
+  height: 350px;
+  bottom: -10px;
+}
+
+.waveOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-sea);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.contentSection {
+  background-color: var(--color-black);
+  padding: 4rem 1rem;
+  position: relative;
+  z-index: 5;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.letterBlock {
+  margin-bottom: 5rem;
+}
+
+.letterHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid #00b4d8;
+  background-color: #1a1a1a;
+}
+
+.authorName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.letterBody {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #e5e5e5;
+}
+
+.letterBody p {
+  margin-bottom: 1.5rem;
+}
+
+.actionSection {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.actionButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
