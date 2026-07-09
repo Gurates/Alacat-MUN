@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { TransitionLink } from '../components/layout/TransitionContext';
 import { ArrowRight } from 'lucide-react';
+import Countdown from '../components/common/Countdown';
 import styles from './Home.module.css';
 
 const Home: React.FC = () => {
@@ -31,6 +32,7 @@ const Home: React.FC = () => {
           <h1 className={styles.title}>AlaçatıMUN</h1>
           <p className={styles.dates}>20th, 21st and 22nd of February 2026</p>
           <p className={styles.hashtag}>#diveintodiplomacy</p>
+          <Countdown targetDate="2026-02-20T09:00:00" />
         </motion.div>
 
         {/* Parallax Wave Layers */}

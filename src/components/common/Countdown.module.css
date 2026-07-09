@@ -1,0 +1,43 @@
+.countdownContainer {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  margin: 3rem 0;
+  z-index: 10;
+  position: relative;
+}
+
+.timeBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 4rem;
+}
+
+.number {
+  font-family: var(--font-cormorant);
+  color: var(--silver);
+  font-weight: 300;
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  margin-top: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .countdownContainer {
+    gap: 1.5rem;
+  }
+
+  .number {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+  }
+}
