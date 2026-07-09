@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
 import Input from '../components/common/Input';
-import Select from '../components/common/Select';
 import Button from '../components/common/Button';
 import { supabase } from '../lib/supabase';
 import styles from './Register.module.css';
