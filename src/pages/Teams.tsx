@@ -4,11 +4,11 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './Teams.module.css';
 
 const teamMembers = [
-  { name: 'Jane Doe', role: 'Director General', dept: 'Exec', photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&auto=format&fit=crop', color: 'var(--color-accent)' },
-  { name: 'John Smith', role: 'Secretary General', dept: 'Exec', photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&auto=format&fit=crop', color: 'var(--color-accent)' },
-  { name: 'Alice Johnson', role: 'Head of PR', dept: 'Organization', photo: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&auto=format&fit=crop', color: 'var(--color-secondary)' },
-  { name: 'Michael Brown', role: 'Head of IT', dept: 'Organization', photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&auto=format&fit=crop', color: 'var(--color-secondary)' },
-  { name: 'Emily Davis', role: 'Head of Media', dept: 'Organization', photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&auto=format&fit=crop', color: 'var(--color-secondary)' },
+  { name: 'Yağmur', role: 'Director General', dept: 'Exec', photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&auto=format&fit=crop', color: 'var(--color-accent)' },
+  { name: 'Ege', role: 'Secretary General', dept: 'Exec', photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&auto=format&fit=crop', color: 'var(--color-accent)' },
+  { name: 'Alice Mehmet', role: 'Head of PR', dept: 'Organization', photo: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&auto=format&fit=crop', color: 'var(--color-secondary)' },
+  { name: 'AOSNAŞLXC', role: 'Head of IT', dept: 'Organization', photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&auto=format&fit=crop', color: 'var(--color-secondary)' },
+  { name: 'ALŞDJCNLŞ', role: 'Head of Media', dept: 'Organization', photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&auto=format&fit=crop', color: 'var(--color-secondary)' },
 ];
 
 const Teams: React.FC = () => {

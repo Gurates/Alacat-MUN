@@ -164,6 +164,46 @@
   display: block;
 }
 
+/* Lightweight mobile bubble (no pseudo-elements, no heavy shadows) */
+.particleMobile {
+  position: absolute;
+  bottom: -50px;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 35% 25%,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.2) 30%,
+    rgba(46, 196, 199, 0.1) 50%,
+    transparent 70%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(46, 196, 199, 0.2);
+}
+
+/* Mobile overrides for intro */
+@media (max-width: 768px) {
+  .title {
+    font-size: clamp(2rem, 10vw, 3.5rem);
+    letter-spacing: 0.02em;
+  }
+
+  .subtitle {
+    font-size: clamp(0.65rem, 2.5vw, 0.9rem);
+    letter-spacing: 0.2em;
+  }
+
+  .lightBeam {
+    display: none; /* Skip beams entirely on mobile */
+  }
+
+  .lightRays {
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(46, 196, 199, 0.15) 0%, transparent 60%);
+  }
+}
+
 /* Fallback for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .particlesContainer, .lightRays, .wipeWaveContainer, .lightBeam {

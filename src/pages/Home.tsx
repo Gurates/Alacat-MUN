@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { TransitionLink } from '../components/layout/TransitionContext';
 import { ArrowRight } from 'lucide-react';
@@ -47,31 +48,37 @@ const Home: React.FC = () => {
 
   return (
     <div ref={pageRef} className={styles.homeContainer} style={{ background: depthGradient }}>
-      {/* Ambient floating particles */}
-      <div className={styles.ambientParticles}>
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className={styles.ambientBubble}
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 8}s`,
-              animationDuration: `${8 + Math.random() * 12}s`,
-              width: `${3 + Math.random() * 8}px`,
-              height: `${3 + Math.random() * 8}px`,
-              opacity: 0.15 + Math.random() * 0.2,
-            }}
-          />
-        ))}
-      </div>
+      {/* Ambient floating particles - rendered via portal to avoid stacking context issues */}
+      {ReactDOM.createPortal(
+        <div className={styles.ambientParticles}>
+          {Array.from({ length: 20 }).map((_, i) => (
+            <div
+              key={i}
+              className={styles.ambientBubble}
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 8}s`,
+                animationDuration: `${8 + Math.random() * 12}s`,
+                width: `${3 + Math.random() * 8}px`,
+                height: `${3 + Math.random() * 8}px`,
+                opacity: 0.15 + Math.random() * 0.2,
+              }}
+            />
+          ))}
+        </div>,
+        document.body
+      )}
 
-      {/* Depth indicator */}
-      <div className={styles.depthIndicator}>
-        <div className={styles.depthLine} />
-        <span className={styles.depthText}>
-          {Math.round(depthPercent * 200)}m
-        </span>
-      </div>
+      {/* Depth indicator - rendered via portal so it's never trapped in a stacking context */}
+      {ReactDOM.createPortal(
+        <div className={styles.depthIndicator}>
+          <div className={styles.depthLine} />
+          <span className={styles.depthText}>
+            {Math.round(depthPercent * 200)}m
+          </span>
+        </div>,
+        document.body
+      )}
 
       {/* Hero Section with Parallax Waves */}
       <section ref={containerRef} className={styles.heroSection}>

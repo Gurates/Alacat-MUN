@@ -23,7 +23,7 @@ const IntroAnimation: React.FC = () => {
 
     const ctx = gsap.matchMedia();
 
-    ctx.add('(prefers-reduced-motion: no-preference)', () => {
+    ctx.add('(prefers-reduced-motion: no-preference) and (min-width: 769px)', () => {
       const tl = gsap.timeline({
         onComplete: () => {
           sessionStorage.setItem('mun_intro_played', 'true');
@@ -162,6 +162,111 @@ const IntroAnimation: React.FC = () => {
         duration: 1.5,
         ease: 'power3.inOut',
       }, peakTime + 2.5);
+    });
+
+    // ===== MOBILE VERSION (optimized) =====
+    ctx.add('(prefers-reduced-motion: no-preference) and (max-width: 768px)', () => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          sessionStorage.setItem('mun_intro_played', 'true');
+          document.body.style.overflow = '';
+          setHasPlayed(true);
+        },
+      });
+
+      gsap.set(lightRef.current, { opacity: 0, scale: 0.8 });
+      gsap.set(titleRef.current, { opacity: 0, scale: 0.92, y: 20 });
+      gsap.set(subtitleRef.current, { opacity: 0, y: 10 });
+      gsap.set(overlayRef.current, { backgroundColor: '#02142A' });
+
+      // Fewer bubbles for mobile performance (120 instead of 350)
+      const mobileBubbles: HTMLDivElement[] = [];
+      if (particlesRef.current) {
+        for (let i = 0; i < 120; i++) {
+          const bubble = document.createElement('div');
+          bubble.className = styles.particleMobile;
+          const size = Math.random() * 18 + 4; // 4px to 22px
+          bubble.style.width = `${size}px`;
+          bubble.style.height = `${size}px`;
+          bubble.style.left = `${Math.random() * 100}%`;
+          particlesRef.current.appendChild(bubble);
+          mobileBubbles.push(bubble);
+        }
+      }
+
+      gsap.set(mobileBubbles, {
+        y: window.innerHeight + 50,
+        x: 0,
+        opacity: 0,
+        scale: 0.4,
+      });
+
+      const spawnDuration = 2.2;
+
+      // Step 1: Bubbles rise
+      tl.to(mobileBubbles, {
+        opacity: () => Math.random() * 0.5 + 0.3,
+        y: () => Math.random() * window.innerHeight * 0.9,
+        x: () => (Math.random() - 0.5) * window.innerWidth * 0.5,
+        scale: () => Math.random() * 1.2 + 0.4,
+        duration: spawnDuration,
+        stagger: {
+          each: spawnDuration / 120,
+          from: 'start',
+          ease: 'power3.in',
+        },
+        ease: 'power1.out',
+      }, 0);
+
+      // Light
+      tl.to(lightRef.current, {
+        opacity: 0.7,
+        scale: 1.1,
+        duration: 2.5,
+        ease: 'power2.inOut',
+      }, 0.2);
+
+      // Background
+      tl.to(overlayRef.current, {
+        backgroundColor: '#0A4A8A',
+        duration: 2.5,
+        ease: 'power2.inOut',
+      }, 0);
+
+      const peakTime = spawnDuration + 0.6;
+
+      // Explosion
+      tl.to(mobileBubbles, {
+        x: () => (Math.random() - 0.5) * window.innerWidth * 2.5,
+        y: () => (Math.random() - 0.5) * window.innerHeight * 2.5,
+        scale: 0,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'expo.out',
+      }, peakTime);
+
+      // Title
+      tl.to(titleRef.current, {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 1.5,
+        ease: 'power2.out',
+      }, peakTime + 0.2);
+
+      tl.to(subtitleRef.current, {
+        opacity: 0.6,
+        y: 0,
+        duration: 1.2,
+        ease: 'power2.out',
+      }, peakTime + 0.4);
+
+      // Sweep
+      tl.to(overlayRef.current, {
+        yPercent: -120,
+        duration: 1.3,
+        ease: 'power3.inOut',
+      }, peakTime + 2.0);
     });
 
     // Reduced motion
