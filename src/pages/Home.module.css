@@ -63,6 +63,7 @@
   transition: opacity 0.3s ease;
   padding: 8px;
   -webkit-tap-highlight-color: transparent;
+  pointer-events: none;
 }
 
 .depthIndicator:hover {

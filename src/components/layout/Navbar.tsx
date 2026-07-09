@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
             ))}
           </ul>
           <TransitionLink to="/register">
-            <Button variant="primary" size="sm">Register Now</Button>
+            <Button variant="primary" size="sm">APPLY</Button>
           </TransitionLink>
         </nav>
 
@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
           ))}
           <li>
             <TransitionLink to="/register" className={styles.mobileRegButton}>
-              <Button variant="primary" fullWidth>Register Now</Button>
+              <Button variant="primary" fullWidth>APPLY</Button>
             </TransitionLink>
           </li>
         </ul>

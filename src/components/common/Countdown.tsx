@@ -1,26 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './Countdown.module.css';
 
 interface CountdownProps {
-  targetDate: string; // e.g., "2026-07-27T10:00:00"
+  targetDate: string; // e.g., "2027-01-02T09:00:00"
 }
 
-const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
-  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(targetDate));
+interface TimeLeft {
+  days: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
+  isOver: boolean;
+}
 
-  function calculateTimeLeft(target: string) {
-    const diff = new Date(target).getTime() - Date.now();
-    if (diff <= 0) {
-      return { days: '0', hours: '00', minutes: '00', seconds: '00', isOver: true };
-    }
-    return {
-      days: String(Math.floor(diff / 86400000)),
-      hours: String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0'),
-      minutes: String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0'),
-      seconds: String(Math.floor((diff % 60000) / 1000)).padStart(2, '0'),
-      isOver: false,
-    };
+function calculateTimeLeft(target: string): TimeLeft {
+  const diff = new Date(target).getTime() - Date.now();
+  if (diff <= 0) {
+    return { days: '000', hours: '00', minutes: '00', seconds: '00', isOver: true };
   }
+  return {
+    days: String(Math.floor(diff / 86400000)).padStart(3, '0'),
+    hours: String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0'),
+    minutes: String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0'),
+    seconds: String(Math.floor((diff % 60000) / 1000)).padStart(2, '0'),
+    isOver: false,
+  };
+}
+
+const FlipDigit: React.FC<{ digit: string; delay?: number }> = ({ digit, delay = 0 }) => {
+  const [flip, setFlip] = useState(false);
+  const prevDigit = useRef(digit);
+
+  useEffect(() => {
+    if (prevDigit.current !== digit) {
+      setFlip(true);
+      const timeout = setTimeout(() => {
+        setFlip(false);
+        prevDigit.current = digit;
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [digit]);
+
+  return (
+    <span
+      className={`${styles.digit} ${flip ? styles.digitFlip : ''}`}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      {digit}
+    </span>
+  );
+};
+
+const TimeUnit: React.FC<{ value: string; label: string }> = ({ value, label }) => {
+  const digits = value.split('');
+
+  return (
+    <div className={styles.timeBlock}>
+      <div className={styles.digitGroup}>
+        {digits.map((d, i) => (
+          <FlipDigit key={`${label}-${i}`} digit={d} delay={i * 50} />
+        ))}
+      </div>
+      <span className={styles.label}>{label}</span>
+    </div>
+  );
+};
+
+const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => calculateTimeLeft(targetDate));
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -35,27 +83,18 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
   }, [targetDate]);
 
   if (timeLeft.isOver) {
-    return null; // Or a message saying it started
+    return null;
   }
 
   return (
     <div className={styles.countdownContainer}>
-      <div className={styles.timeBlock}>
-        <span className={styles.number}>{timeLeft.days}</span>
-        <span className={styles.label}>Days</span>
-      </div>
-      <div className={styles.timeBlock}>
-        <span className={styles.number}>{timeLeft.hours}</span>
-        <span className={styles.label}>Hours</span>
-      </div>
-      <div className={styles.timeBlock}>
-        <span className={styles.number}>{timeLeft.minutes}</span>
-        <span className={styles.label}>Min</span>
-      </div>
-      <div className={styles.timeBlock}>
-        <span className={styles.number}>{timeLeft.seconds}</span>
-        <span className={styles.label}>Sec</span>
-      </div>
+      <TimeUnit value={timeLeft.days} label="Gün" />
+      <div className={styles.separator}>:</div>
+      <TimeUnit value={timeLeft.hours} label="Saat" />
+      <div className={styles.separator}>:</div>
+      <TimeUnit value={timeLeft.minutes} label="Dakika" />
+      <div className={styles.separator}>:</div>
+      <TimeUnit value={timeLeft.seconds} label="Saniye" />
     </div>
   );
 };

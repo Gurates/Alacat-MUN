@@ -87,9 +87,9 @@ const Home: React.FC = () => {
           style={{ y: textY, opacity: textOpacity }}
         >
           <h1 className={styles.title}>AlaçatıMUN</h1>
-          <p className={styles.dates}>20th, 21st and 22nd of February 2026</p>
+          <p className={styles.dates}>2, 3 & 4 October 2027</p>
           <p className={styles.hashtag}>#diveintodiplomacy</p>
-          <Countdown targetDate="2026-02-20T09:00:00" />
+          <Countdown targetDate="2027-01-02T09:00:00" />
         </motion.div>
 
         {/* Parallax Wave Layers */}
@@ -118,13 +118,13 @@ const Home: React.FC = () => {
             </div>
             <div className={styles.authorInfo}>
               <div className={styles.avatar}></div>
-              <h3 className={styles.authorName}>JANE DOE</h3>
+              <h3 className={styles.authorName}>Ege</h3>
             </div>
             <div className={styles.letterBody}>
               <p>Dear Attendees,</p>
-              <p>It is an honor to welcome you all to the annual session of Alaçatı MUN Conference. I am Jane Doe, your Secretary-General. If you are reading this letter, you probably already know why you should be here, but let us remind you once more.</p>
+              <p>It is an honor to welcome you all to the annual session of Alaçatı MUN Conference. I am Ege, your Secretary-General. If you are reading this letter, you probably already know why you should be here, but let us remind you once more.</p>
               <p>AlaçatıMUN is a legacy preserved by generations, now bestowed upon us by our upperclassmen. Being entrusted with this conference was not an easy feat; so you can be sure that we are no amateurs when it comes to MUN, and that it isn't a coincidence you are attending the best.</p>
-              <p>Sincerely,<br />Jane Doe</p>
+              <p>Sincerely,<br />Ege</p>
             </div>
           </motion.div>
 
@@ -141,13 +141,13 @@ const Home: React.FC = () => {
             </div>
             <div className={styles.authorInfo}>
               <div className={styles.avatar}></div>
-              <h3 className={styles.authorName}>JOHN SMITH</h3>
+              <h3 className={styles.authorName}>Efe</h3>
             </div>
             <div className={styles.letterBody}>
               <p>Distinguished Delegates, Advisors, Staff, and Partners,</p>
-              <p>It is a great honor to welcome you to Alaçatı MUN'26. I am John Smith, and I proudly serve as your Director-General.</p>
+              <p>It is a great honor to welcome you to Alaçatı MUN'26. I am Efe, and I proudly serve as your Director-General.</p>
               <p>Together with our esteemed Secretary-General, we sacrificed years working both for our titles and for the legacy of AlaçatıMUN. And every single time, our experienced academic and organization teams have worked meticulously to both preserve and elevate this heritage to new heights.</p>
-              <p>Yours Sincerely,<br />John Smith</p>
+              <p>Yours Sincerely,<br />Efe</p>
             </div>
           </motion.div>
 

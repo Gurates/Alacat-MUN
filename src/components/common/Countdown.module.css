@@ -1,43 +1,161 @@
+/* ===== Countdown Container ===== */
 .countdownContainer {
   display: flex;
   justify-content: center;
-  gap: 2.5rem;
-  margin: 3rem 0;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 2.5rem 0 1rem;
   z-index: 10;
   position: relative;
 }
 
+/* ===== Individual Time Block ===== */
 .timeBlock {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 4rem;
+  gap: 0.75rem;
 }
 
-.number {
-  font-family: var(--font-cormorant);
-  color: var(--silver);
-  font-weight: 300;
-  font-size: clamp(2rem, 6vw, 3rem);
-  line-height: 1;
+.digitGroup {
+  display: flex;
+  gap: 4px;
+}
+
+/* ===== Single Digit Card ===== */
+.digit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 3.8rem;
+  font-family: var(--font-heading, 'Inter', sans-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(
+    180deg,
+    rgba(46, 196, 199, 0.15) 0%,
+    rgba(46, 196, 199, 0.05) 49%,
+    rgba(20, 80, 120, 0.12) 50%,
+    rgba(20, 80, 120, 0.2) 100%
+  );
+  border: 1px solid rgba(46, 196, 199, 0.2);
+  border-radius: 10px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 15px rgba(46, 196, 199, 0.08);
   font-variant-numeric: tabular-nums;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease;
 }
 
+/* Mid-line divider for flip card effect */
+.digit::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+/* ===== Flip Animation ===== */
+.digitFlip {
+  animation: flipDown 0.5s ease-in-out;
+}
+
+@keyframes flipDown {
+  0% {
+    transform: perspective(400px) rotateX(0deg);
+  }
+  30% {
+    transform: perspective(400px) rotateX(-10deg);
+    box-shadow:
+      0 8px 30px rgba(46, 196, 199, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 0 25px rgba(46, 196, 199, 0.15);
+  }
+  100% {
+    transform: perspective(400px) rotateX(0deg);
+  }
+}
+
+/* ===== Separator ===== */
+.separator {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(46, 196, 199, 0.6);
+  padding-top: 0.6rem;
+  animation: pulse 2s ease-in-out infinite;
+  user-select: none;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* ===== Label ===== */
 .label {
-  margin-top: 0.5rem;
   font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.3em;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(46, 196, 199, 0.7);
 }
 
+/* ===== Mobile Responsive ===== */
 @media (max-width: 768px) {
   .countdownContainer {
-    gap: 1.5rem;
+    gap: 0.3rem;
   }
 
-  .number {
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
+  .digit {
+    width: 2rem;
+    height: 2.8rem;
+    font-size: 1.3rem;
+    border-radius: 7px;
+  }
+
+  .separator {
+    font-size: 1.3rem;
+    padding-top: 0.3rem;
+  }
+
+  .digitGroup {
+    gap: 2px;
+  }
+
+  .label {
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+  }
+
+  .timeBlock {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .digit {
+    width: 1.6rem;
+    height: 2.2rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+  }
+
+  .separator {
+    font-size: 1.1rem;
   }
 }

@@ -179,10 +179,10 @@ const IntroAnimation: React.FC = () => {
       gsap.set(subtitleRef.current, { opacity: 0, y: 10 });
       gsap.set(overlayRef.current, { backgroundColor: '#02142A' });
 
-      // Fewer bubbles for mobile performance (120 instead of 350)
+      // Fewer bubbles for mobile performance (35 instead of 120)
       const mobileBubbles: HTMLDivElement[] = [];
       if (particlesRef.current) {
-        for (let i = 0; i < 120; i++) {
+        for (let i = 0; i < 35; i++) {
           const bubble = document.createElement('div');
           bubble.className = styles.particleMobile;
           const size = Math.random() * 18 + 4; // 4px to 22px
@@ -201,7 +201,7 @@ const IntroAnimation: React.FC = () => {
         scale: 0.4,
       });
 
-      const spawnDuration = 2.2;
+      const spawnDuration = 1.5;
 
       // Step 1: Bubbles rise
       tl.to(mobileBubbles, {
@@ -211,7 +211,7 @@ const IntroAnimation: React.FC = () => {
         scale: () => Math.random() * 1.2 + 0.4,
         duration: spawnDuration,
         stagger: {
-          each: spawnDuration / 120,
+          each: spawnDuration / 35,
           from: 'start',
           ease: 'power3.in',
         },
@@ -222,18 +222,18 @@ const IntroAnimation: React.FC = () => {
       tl.to(lightRef.current, {
         opacity: 0.7,
         scale: 1.1,
-        duration: 2.5,
+        duration: 1.5,
         ease: 'power2.inOut',
       }, 0.2);
 
       // Background
       tl.to(overlayRef.current, {
         backgroundColor: '#0A4A8A',
-        duration: 2.5,
+        duration: 1.5,
         ease: 'power2.inOut',
       }, 0);
 
-      const peakTime = spawnDuration + 0.6;
+      const peakTime = spawnDuration + 0.4;
 
       // Explosion
       tl.to(mobileBubbles, {
@@ -241,7 +241,7 @@ const IntroAnimation: React.FC = () => {
         y: () => (Math.random() - 0.5) * window.innerHeight * 2.5,
         scale: 0,
         opacity: 0,
-        duration: 1.2,
+        duration: 0.8,
         ease: 'expo.out',
       }, peakTime);
 
@@ -250,23 +250,23 @@ const IntroAnimation: React.FC = () => {
         opacity: 1,
         scale: 1,
         y: 0,
-        duration: 1.5,
+        duration: 1.2,
         ease: 'power2.out',
-      }, peakTime + 0.2);
+      }, peakTime + 0.1);
 
       tl.to(subtitleRef.current, {
         opacity: 0.6,
         y: 0,
-        duration: 1.2,
+        duration: 1.0,
         ease: 'power2.out',
-      }, peakTime + 0.4);
+      }, peakTime + 0.3);
 
       // Sweep
       tl.to(overlayRef.current, {
         yPercent: -120,
-        duration: 1.3,
+        duration: 1.0,
         ease: 'power3.inOut',
-      }, peakTime + 2.0);
+      }, peakTime + 1.2);
     });
 
     // Reduced motion
