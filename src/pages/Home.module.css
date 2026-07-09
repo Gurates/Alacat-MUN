@@ -1,7 +1,87 @@
 .homeContainer {
-  background-color: var(--color-black);
   color: var(--color-white);
   min-height: 100vh;
+  position: relative;
+  transition: background 0.1s linear;
+}
+
+/* Ambient floating particles on the page */
+.ambientParticles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.ambientBubble {
+  position: absolute;
+  bottom: -20px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 25%,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.15) 40%,
+    transparent 70%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  animation: ambientRise linear infinite;
+}
+
+@keyframes ambientRise {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(30px);
+    opacity: 0;
+  }
+}
+
+/* Depth indicator on the side */
+.depthIndicator {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 50;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.depthIndicator:hover {
+  opacity: 0.8;
+}
+
+.depthLine {
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(46, 196, 199, 0.6), rgba(255, 255, 255, 0.15));
+  border-radius: 1px;
+}
+
+.depthText {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(46, 196, 199, 0.8);
+  letter-spacing: 0.1em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 
 .heroSection {
@@ -12,7 +92,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-color: #000;
+  background: transparent;
 }
 
 .heroContent {
@@ -56,7 +136,7 @@
 }
 
 .wave1 {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,100 C150,100 350,0 500,0 C650,0 850,100 1000,100 L1000,100 L0,100 Z' fill='%23000000' opacity='1'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,100 C150,100 350,0 500,0 C650,0 850,100 1000,100 L1000,100 L0,100 Z' fill='%23021c3a' opacity='1'/%3E%3C/svg%3E");
   z-index: 3;
   height: 150px;
   bottom: -10px;
@@ -64,14 +144,14 @@
 }
 
 .wave2 {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,50 C200,100 300,0 500,0 C700,0 800,100 1000,50 L1000,100 L0,100 Z' fill='%230a0f1a' opacity='0.8'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,50 C200,100 300,0 500,0 C700,0 800,100 1000,50 L1000,100 L0,100 Z' fill='%230a2a4a' opacity='0.8'/%3E%3C/svg%3E");
   z-index: 2;
   height: 250px;
   bottom: -10px;
 }
 
 .wave3 {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C100,50 400,100 500,100 C600,100 900,50 1000,0 L1000,100 L0,100 Z' fill='%230f172a' opacity='0.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C100,50 400,100 500,100 C600,100 900,50 1000,0 L1000,100 L0,100 Z' fill='%230b3558' opacity='0.5'/%3E%3C/svg%3E");
   z-index: 1;
   height: 350px;
   bottom: -10px;
@@ -83,13 +163,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--gradient-sea);
+  background: linear-gradient(180deg, transparent 0%, rgba(2, 20, 42, 0.4) 50%, rgba(2, 28, 58, 0.95) 100%);
   z-index: 4;
   pointer-events: none;
 }
 
 .contentSection {
-  background-color: var(--color-black);
+  background: transparent;
   padding: 4rem 1rem;
   position: relative;
   z-index: 5;
@@ -102,13 +182,19 @@
 
 .letterBlock {
   margin-bottom: 5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 2.5rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .letterHeader {
   display: flex;
   align-items: center;
   margin-bottom: 2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding-bottom: 1rem;
 }
 
@@ -129,8 +215,8 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  border: 3px solid #00b4d8;
-  background-color: #1a1a1a;
+  border: 3px solid rgba(46, 196, 199, 0.5);
+  background-color: rgba(26, 26, 26, 0.5);
 }
 
 .authorName {
@@ -142,7 +228,7 @@
 .letterBody {
   font-size: 1.05rem;
   line-height: 1.8;
-  color: #e5e5e5;
+  color: rgba(229, 229, 229, 0.9);
 }
 
 .letterBody p {
@@ -159,17 +245,30 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(46, 196, 199, 0.1);
   color: white;
   padding: 0.75rem 1.5rem;
   border-radius: 9999px;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(46, 196, 199, 0.3);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .actionButton:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(46, 196, 199, 0.2);
+  border-color: rgba(46, 196, 199, 0.5);
   transform: scale(1.05);
+  color: white;
 }
+
+/* Responsive depth indicator */
+@media (max-width: 768px) {
+  .depthIndicator {
+    right: 12px;
+  }
+  .depthLine {
+    height: 50px;
+  }
+}
+

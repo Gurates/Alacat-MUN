@@ -20,14 +20,30 @@
 /* Light rays effect */
 .lightRays {
   position: absolute;
-  top: -20%;
-  left: -20%;
-  width: 140%;
-  height: 140%;
-  background: radial-gradient(circle at 50% 0%, rgba(46, 196, 199, 0.15) 0%, transparent 60%);
-  opacity: 0; /* Animated by GSAP */
+  top: -30%;
+  left: -10%;
+  width: 120%;
+  height: 130%;
+  background:
+    radial-gradient(ellipse at 30% -10%, rgba(46, 196, 199, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% -5%, rgba(11, 95, 165, 0.25) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 10%, rgba(255, 255, 255, 0.08) 0%, transparent 40%);
+  opacity: 0;
   pointer-events: none;
   mix-blend-mode: screen;
+}
+
+/* Individual light beams */
+.lightBeam {
+  position: absolute;
+  top: -20%;
+  width: 120px;
+  height: 120%;
+  background: linear-gradient(180deg, rgba(46, 196, 199, 0.12) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: top center;
+  filter: blur(30px);
 }
 
 /* Particles / Bubbles container */
@@ -40,40 +56,91 @@
   pointer-events: none;
 }
 
+/* Realistic underwater bubble */
 .particle {
   position: absolute;
   bottom: -50px;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05));
-  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  opacity: 0; /* GSAP will animate */
-  box-shadow: 
-    inset 2px 2px 5px rgba(255, 255, 255, 0.5),
-    inset -2px -2px 5px rgba(0, 0, 0, 0.1),
-    0 0 10px rgba(46, 196, 199, 0.2);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  /* Glass bubble effect */
+  background: radial-gradient(
+    circle at 35% 25%,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(46, 196, 199, 0.15) 40%,
+    rgba(11, 95, 165, 0.1) 60%,
+    transparent 70%
+  );
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    inset 3px 3px 8px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 6px rgba(2, 20, 42, 0.2),
+    0 0 12px rgba(46, 196, 199, 0.3),
+    0 0 30px rgba(46, 196, 199, 0.1);
+}
+
+/* Highlight reflection on bubble */
+.particle::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  width: 35%;
+  height: 25%;
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 255, 255, 0.9) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  transform: rotate(-30deg);
+}
+
+/* Small secondary reflection */
+.particle::after {
+  content: '';
+  position: absolute;
+  bottom: 20%;
+  right: 18%;
+  width: 12%;
+  height: 12%;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
 }
 
 /* Title */
 .titleContainer {
   position: relative;
   z-index: 10;
-  opacity: 0; /* GSAP will animate */
+  opacity: 0;
   transform: scale(0.95) translateY(20px);
+  text-align: center;
 }
 
 .title {
   font-family: var(--font-heading, 'Outfit', serif);
   font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #ffffff 0%, #2EC4C7 100%);
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #ffffff 0%, #b5ebed 50%, #2EC4C7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 20px rgba(46, 196, 199, 0.3));
+  filter: drop-shadow(0 0 40px rgba(46, 196, 199, 0.4))
+         drop-shadow(0 0 80px rgba(46, 196, 199, 0.15));
   margin: 0;
+}
+
+.subtitle {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-top: 0.75rem;
+  opacity: 0;
 }
 
 /* Water transition wave */
@@ -82,8 +149,8 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 20vh; /* Give it some height */
-  transform: translateY(100%); /* Hang it below the main overlay */
+  height: 20vh;
+  transform: translateY(100%);
   z-index: 20;
   pointer-events: none;
   display: flex;
@@ -99,7 +166,7 @@
 
 /* Fallback for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .particlesContainer, .lightRays, .wipeWaveContainer {
+  .particlesContainer, .lightRays, .wipeWaveContainer, .lightBeam {
     display: none;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { TransitionLink } from '../components/layout/TransitionContext';
 import { ArrowRight } from 'lucide-react';
@@ -7,10 +7,34 @@ import styles from './Home.module.css';
 
 const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const [depthPercent, setDepthPercent] = useState(0);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
   });
+
+  // Track full-page scroll for the depth gradient
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(scrollY / docHeight, 1) : 0;
+      setDepthPercent(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Dynamic ocean depth colors
+  const depthGradient = `linear-gradient(
+    180deg,
+    hsl(${200 + depthPercent * 10}, ${60 + depthPercent * 15}%, ${Math.max(5, 35 - depthPercent * 30)}%) 0%,
+    hsl(${210 + depthPercent * 5}, ${70 + depthPercent * 10}%, ${Math.max(3, 20 - depthPercent * 17)}%) 50%,
+    hsl(${215 + depthPercent * 3}, ${80 + depthPercent * 5}%, ${Math.max(2, 8 - depthPercent * 6)}%) 100%
+  )`;
 
   // Parallax effects for waves
   const wave1Y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
@@ -22,7 +46,33 @@ const Home: React.FC = () => {
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <div className={styles.homeContainer}>
+    <div ref={pageRef} className={styles.homeContainer} style={{ background: depthGradient }}>
+      {/* Ambient floating particles */}
+      <div className={styles.ambientParticles}>
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className={styles.ambientBubble}
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 8}s`,
+              animationDuration: `${8 + Math.random() * 12}s`,
+              width: `${3 + Math.random() * 8}px`,
+              height: `${3 + Math.random() * 8}px`,
+              opacity: 0.15 + Math.random() * 0.2,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Depth indicator */}
+      <div className={styles.depthIndicator}>
+        <div className={styles.depthLine} />
+        <span className={styles.depthText}>
+          {Math.round(depthPercent * 200)}m
+        </span>
+      </div>
+
       {/* Hero Section with Parallax Waves */}
       <section ref={containerRef} className={styles.heroSection}>
         <motion.div
@@ -108,3 +158,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+
