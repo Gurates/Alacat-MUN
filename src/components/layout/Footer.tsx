@@ -9,14 +9,14 @@ const Footer: React.FC = () => {
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
           <a 
-            href="#" 
+            href="https://www.instagram.com/alacatimun26/" 
             target="_blank" 
             rel="noopener noreferrer" 
             style={{ fontSize: '0.9rem', color: 'white', textDecoration: 'none', transition: 'color 0.2s' }}
             onMouseOver={(e) => e.currentTarget.style.color = '#FFC700'}
             onMouseOut={(e) => e.currentTarget.style.color = 'white'}
           >
-            Instagram: @ocean.mun
+            Instagram: @alacatimun26
           </a>
           <a 
             href="mailto:info@oceanmun.org" 
