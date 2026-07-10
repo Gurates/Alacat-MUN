@@ -101,7 +101,7 @@ const IntroAnimation: React.FC = () => {
           const size = Math.random() * 30 + 8;
           bubble.style.width = `${size}px`;
           bubble.style.height = `${size}px`;
-          
+
           // Spawn from all edges
           const edge = Math.random();
           if (edge < 0.6) {
@@ -199,7 +199,7 @@ const IntroAnimation: React.FC = () => {
           const size = Math.random() * 22 + 6;
           bubble.style.width = `${size}px`;
           bubble.style.height = `${size}px`;
-          
+
           // Spawn from all edges
           const edge = Math.random();
           if (edge < 0.55) {
