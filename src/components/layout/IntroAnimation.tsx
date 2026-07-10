@@ -2,17 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import styles from './IntroAnimation.module.css';
 
-/** Trigger haptic vibration on supported devices */
-const vibrate = (pattern: number | number[]) => {
-  try {
-    if ('vibrate' in navigator) {
-      navigator.vibrate(pattern);
-    }
-  } catch {
-    // Silently fail on unsupported devices
-  }
-};
-
 const IntroAnimation: React.FC = () => {
   const [hasPlayed, setHasPlayed] = useState(true);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -20,6 +9,8 @@ const IntroAnimation: React.FC = () => {
   const lightRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
+  // Track whether we have user-gesture activation for vibration
+  const canVibrateRef = useRef(false);
 
   useEffect(() => {
     const played = sessionStorage.getItem('mun_intro_played');
@@ -32,9 +23,45 @@ const IntroAnimation: React.FC = () => {
   useEffect(() => {
     if (hasPlayed || !overlayRef.current) return;
 
+    // --- Vibration setup ---
+    // navigator.vibrate() requires a user gesture (touchstart/click) on most
+    // mobile browsers. We attach a listener so any touch during the intro
+    // gives us activation context, then we vibrate at the key moments.
+    const pendingVibrations: Array<{ pattern: number | number[]; timer: ReturnType<typeof setTimeout> | null }> = [];
+
+    const doVibrate = (pattern: number | number[]) => {
+      try {
+        if ('vibrate' in navigator) {
+          navigator.vibrate(pattern);
+        }
+      } catch { /* unsupported */ }
+    };
+
+    const handleTouch = () => {
+      canVibrateRef.current = true;
+      // Fire any pending vibrations that were scheduled before the user touched
+      pendingVibrations.forEach((v) => {
+        if (v.timer !== null) {
+          // Already scheduled — vibrate now since we just got activation
+        }
+      });
+      // Give immediate haptic feedback so the user knows touch is recognized
+      doVibrate(10);
+    };
+
+    const scheduleVibrate = (pattern: number | number[]) => {
+      if (canVibrateRef.current) {
+        doVibrate(pattern);
+      }
+      // Store in case user touches later
+      pendingVibrations.push({ pattern, timer: null });
+    };
+
+    document.addEventListener('touchstart', handleTouch, { once: true, passive: true });
+
     const ctx = gsap.matchMedia();
 
-    // ===== DESKTOP =====
+    // ===== DESKTOP (total ~3.5s) =====
     ctx.add('(prefers-reduced-motion: no-preference) and (min-width: 769px)', () => {
       const finish = () => {
         sessionStorage.setItem('mun_intro_played', 'true');
@@ -44,7 +71,6 @@ const IntroAnimation: React.FC = () => {
 
       const tl = gsap.timeline({ onComplete: finish });
 
-      // Initial state
       gsap.set(lightRef.current, { opacity: 0, scale: 0.8 });
       gsap.set(titleRef.current, { opacity: 0, scale: 0.88, y: 30 });
       gsap.set(subtitleRef.current, { opacity: 0, y: 15 });
@@ -64,67 +90,86 @@ const IntroAnimation: React.FC = () => {
         });
       }
 
-      // Bubbles — 200 is plenty for a dense feel without bloat
+      // Bubbles — 200 for desktop
       const bubbles: HTMLDivElement[] = [];
-      const BUBBLE_COUNT = 200;
+      const COUNT = 200;
       if (particlesRef.current) {
-        for (let i = 0; i < BUBBLE_COUNT; i++) {
+        for (let i = 0; i < COUNT; i++) {
           const bubble = document.createElement('div');
           bubble.className = styles.particle;
-          const size = Math.random() * 30 + 8; // 8–38px
+          const size = Math.random() * 30 + 8;
           bubble.style.width = `${size}px`;
           bubble.style.height = `${size}px`;
-          bubble.style.left = `${Math.random() * 100}%`;
+          // Spawn from all edges: bottom (60%), left (15%), right (15%), top (10%)
+          const edge = Math.random();
+          if (edge < 0.6) {
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.bottom = '-50px';
+          } else if (edge < 0.75) {
+            bubble.style.left = '-50px';
+            bubble.style.top = `${Math.random() * 100}%`;
+          } else if (edge < 0.9) {
+            bubble.style.right = '-50px';
+            bubble.style.top = `${Math.random() * 100}%`;
+          } else {
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.top = '-50px';
+          }
           particlesRef.current.appendChild(bubble);
           bubbles.push(bubble);
         }
       }
 
-      gsap.set(bubbles, { y: window.innerHeight + 80, x: 0, opacity: 0, scale: 0.3 });
+      // Initial state: all offscreen, invisible
+      gsap.set(bubbles, { opacity: 0, scale: 0.2 });
       gsap.set(beams, { opacity: 0 });
 
-      // --- TIMELINE (total ≈ 3.2s) ---
-      const RISE = 1.6;
+      const FILL = 2.0; // Time for bubbles to fill the screen
 
-      // Bubbles rise fast
+      // Step 1: Bubbles rise and FILL the screen (they stay visible!)
       tl.to(bubbles, {
-        opacity: () => Math.random() * 0.4 + 0.6, // 0.6–1.0 (much brighter!)
-        y: () => Math.random() * window.innerHeight * 0.95,
-        x: () => (Math.random() - 0.5) * window.innerWidth * 0.35,
-        scale: () => Math.random() * 1.6 + 0.5,
-        duration: RISE,
-        stagger: { each: RISE / BUBBLE_COUNT, from: 'start', ease: 'power3.in' },
+        opacity: () => Math.random() * 0.3 + 0.7, // 0.7–1.0 very bright
+        // Move to a random position in the central area of the screen
+        x: () => (Math.random() - 0.5) * window.innerWidth * 0.8,
+        y: () => (Math.random() - 0.5) * window.innerHeight * 0.8,
+        scale: () => Math.random() * 1.4 + 0.5,
+        duration: FILL,
+        stagger: {
+          each: FILL / COUNT,
+          from: 'start',
+          ease: 'power2.in', // Slow start → accelerating fill
+        },
         ease: 'power1.out',
       }, 0);
 
-      // Light
-      tl.to(lightRef.current, { opacity: 1, scale: 1.15, duration: RISE, ease: 'power2.inOut' }, 0.1);
-      tl.to(beams, { opacity: () => Math.random() * 0.4 + 0.3, duration: RISE * 0.8, stagger: 0.15, ease: 'power2.inOut' }, 0.2);
-      tl.to(overlayRef.current, { backgroundColor: '#0A4A8A', duration: RISE, ease: 'power2.inOut' }, 0);
+      // Light rays build during fill
+      tl.to(lightRef.current, { opacity: 0.8, scale: 1.1, duration: FILL, ease: 'power2.inOut' }, 0.1);
+      tl.to(beams, { opacity: () => Math.random() * 0.4 + 0.3, duration: FILL * 0.7, stagger: 0.15, ease: 'power2.inOut' }, 0.3);
+      tl.to(overlayRef.current, { backgroundColor: '#0A4A8A', duration: FILL, ease: 'power2.inOut' }, 0);
 
-      // EXPLOSION at RISE + 0.3
-      const PEAK = RISE + 0.3;
+      // Step 2: EXPLOSION — all bubbles scatter at once
+      const PEAK = FILL + 0.15; // Tiny pause so screen feels "full"
 
       tl.to(bubbles, {
-        x: () => (Math.random() - 0.5) * window.innerWidth * 3,
-        y: () => (Math.random() - 0.5) * window.innerHeight * 3,
+        x: () => (Math.random() - 0.5) * window.innerWidth * 4,
+        y: () => (Math.random() - 0.5) * window.innerHeight * 4,
         scale: () => (Math.random() > 0.5 ? 0 : Math.random() * 2),
         opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
         ease: 'expo.out',
       }, PEAK);
 
-      tl.to(beams, { opacity: 0, duration: 0.6, ease: 'power2.out' }, PEAK);
+      tl.to(beams, { opacity: 0, duration: 0.5, ease: 'power2.out' }, PEAK);
 
-      // Title reveal (overlaps explosion)
-      tl.to(titleRef.current, { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: 'power2.out' }, PEAK + 0.15);
-      tl.to(subtitleRef.current, { opacity: 0.7, y: 0, duration: 0.7, ease: 'power2.out' }, PEAK + 0.3);
+      // Step 3: Title reveal
+      tl.to(titleRef.current, { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: 'power2.out' }, PEAK + 0.2);
+      tl.to(subtitleRef.current, { opacity: 0.7, y: 0, duration: 0.7, ease: 'power2.out' }, PEAK + 0.35);
 
-      // Sweep away
-      tl.to(overlayRef.current, { yPercent: -120, duration: 1.0, ease: 'power3.inOut' }, PEAK + 1.2);
+      // Step 4: Sweep away
+      tl.to(overlayRef.current, { yPercent: -120, duration: 1.0, ease: 'power3.inOut' }, PEAK + 1.3);
     });
 
-    // ===== MOBILE (optimized & with vibration) =====
+    // ===== MOBILE (total ~3s, with vibration) =====
     ctx.add('(prefers-reduced-motion: no-preference) and (max-width: 768px)', () => {
       const finish = () => {
         sessionStorage.setItem('mun_intro_played', 'true');
@@ -139,68 +184,84 @@ const IntroAnimation: React.FC = () => {
       gsap.set(subtitleRef.current, { opacity: 0, y: 10 });
       gsap.set(overlayRef.current, { backgroundColor: '#02142A' });
 
-      // 60 bubbles — visible and performant
+      // 60 mobile bubbles
       const mobileBubbles: HTMLDivElement[] = [];
       const M_COUNT = 60;
       if (particlesRef.current) {
         for (let i = 0; i < M_COUNT; i++) {
           const bubble = document.createElement('div');
           bubble.className = styles.particleMobile;
-          const size = Math.random() * 22 + 6; // 6–28px
+          const size = Math.random() * 22 + 6;
           bubble.style.width = `${size}px`;
           bubble.style.height = `${size}px`;
-          bubble.style.left = `${Math.random() * 100}%`;
+          // Spawn from all edges
+          const edge = Math.random();
+          if (edge < 0.55) {
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.bottom = '-40px';
+          } else if (edge < 0.7) {
+            bubble.style.left = '-40px';
+            bubble.style.top = `${Math.random() * 100}%`;
+          } else if (edge < 0.85) {
+            bubble.style.right = '-40px';
+            bubble.style.top = `${Math.random() * 100}%`;
+          } else {
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.top = '-40px';
+          }
           particlesRef.current.appendChild(bubble);
           mobileBubbles.push(bubble);
         }
       }
 
-      gsap.set(mobileBubbles, { y: window.innerHeight + 40, x: 0, opacity: 0, scale: 0.4 });
+      gsap.set(mobileBubbles, { opacity: 0, scale: 0.3 });
 
-      const RISE = 1.2;
+      const FILL = 1.6;
 
-      // Bubbles rise — brighter opacity
+      // Step 1: Bubbles FILL the screen
       tl.to(mobileBubbles, {
-        opacity: () => Math.random() * 0.3 + 0.7, // 0.7–1.0 (very visible)
-        y: () => Math.random() * window.innerHeight * 0.9,
-        x: () => (Math.random() - 0.5) * window.innerWidth * 0.4,
+        opacity: () => Math.random() * 0.2 + 0.8, // 0.8–1.0 very bright
+        x: () => (Math.random() - 0.5) * window.innerWidth * 0.7,
+        y: () => (Math.random() - 0.5) * window.innerHeight * 0.7,
         scale: () => Math.random() * 1.3 + 0.5,
-        duration: RISE,
-        stagger: { each: RISE / M_COUNT, from: 'start', ease: 'power3.in' },
+        duration: FILL,
+        stagger: {
+          each: FILL / M_COUNT,
+          from: 'start',
+          ease: 'power2.in',
+        },
         ease: 'power1.out',
       }, 0);
 
-      // Light & background
-      tl.to(lightRef.current, { opacity: 0.8, scale: 1.1, duration: RISE, ease: 'power2.inOut' }, 0.1);
-      tl.to(overlayRef.current, { backgroundColor: '#0A4A8A', duration: RISE, ease: 'power2.inOut' }, 0);
+      tl.to(lightRef.current, { opacity: 0.8, scale: 1.1, duration: FILL, ease: 'power2.inOut' }, 0.1);
+      tl.to(overlayRef.current, { backgroundColor: '#0A4A8A', duration: FILL, ease: 'power2.inOut' }, 0);
 
-      const PEAK = RISE + 0.2;
+      const PEAK = FILL + 0.15;
 
-      // EXPLOSION + HAPTIC VIBRATION
+      // Step 2: EXPLOSION + vibration
       tl.add(() => {
-        // Short burst vibration at the explosion moment
-        vibrate([30, 20, 50]);
+        scheduleVibrate([40, 30, 60]); // strong burst
       }, PEAK);
 
       tl.to(mobileBubbles, {
-        x: () => (Math.random() - 0.5) * window.innerWidth * 2.5,
-        y: () => (Math.random() - 0.5) * window.innerHeight * 2.5,
+        x: () => (Math.random() - 0.5) * window.innerWidth * 3,
+        y: () => (Math.random() - 0.5) * window.innerHeight * 3,
         scale: 0,
         opacity: 0,
-        duration: 0.7,
+        duration: 0.6,
         ease: 'expo.out',
       }, PEAK);
 
-      // Title
-      tl.to(titleRef.current, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'power2.out' }, PEAK + 0.1);
-      tl.to(subtitleRef.current, { opacity: 0.7, y: 0, duration: 0.6, ease: 'power2.out' }, PEAK + 0.2);
+      // Step 3: Title
+      tl.to(titleRef.current, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'power2.out' }, PEAK + 0.15);
+      tl.to(subtitleRef.current, { opacity: 0.7, y: 0, duration: 0.6, ease: 'power2.out' }, PEAK + 0.25);
 
-      // Sweep + second vibration
+      // Step 4: Sweep + light vibration
       tl.add(() => {
-        vibrate(15);
-      }, PEAK + 0.9);
+        scheduleVibrate(20);
+      }, PEAK + 1.0);
 
-      tl.to(overlayRef.current, { yPercent: -120, duration: 0.8, ease: 'power3.inOut' }, PEAK + 0.9);
+      tl.to(overlayRef.current, { yPercent: -120, duration: 0.8, ease: 'power3.inOut' }, PEAK + 1.0);
     });
 
     // Reduced motion
@@ -216,7 +277,10 @@ const IntroAnimation: React.FC = () => {
       tl.to(overlayRef.current, { opacity: 0, duration: 0.5, delay: 0.5 });
     });
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      document.removeEventListener('touchstart', handleTouch);
+    };
   }, [hasPlayed]);
 
   if (hasPlayed) return null;
