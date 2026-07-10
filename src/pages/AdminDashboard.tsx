@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../lib/supabase';
 import styles from './AdminDashboard.module.css';
-import { Search, Download, Users, FileText, CheckCircle, Briefcase, Award, X } from 'lucide-react';
+import { Search, Download, Users, FileText, CheckCircle, Briefcase, Award, X, LayoutGrid } from 'lucide-react';
 import Button from '../components/common/Button';
 
 // Types
-type TabType = 'registrations' | 'delegations' | 'chairboard_apps' | 'admin_apps' | 'press_apps';
+type TabType = 'all' | 'registrations' | 'delegations' | 'chairboard_apps' | 'admin_apps' | 'press_apps';
 
 const AdminDashboard: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [authError, setAuthError] = useState('');
   
-  const [activeTab, setActiveTab] = useState<TabType>('registrations');
+  const [activeTab, setActiveTab] = useState<TabType>('all');
   const [searchQuery, setSearchQuery] = useState('');
   
   // Data States
-  const [data, setData] = useState<Record<TabType, any[]>>({
+  const [data, setData] = useState<Record<string, any[]>>({
     registrations: [],
     delegations: [],
     chairboard_apps: [],
@@ -66,7 +66,7 @@ const AdminDashboard: React.FC = () => {
   const fetchAllData = async () => {
     setLoading(true);
     try {
-      const tabs: TabType[] = ['registrations', 'delegations', 'chairboard_apps', 'admin_apps', 'press_apps'];
+      const tabs: Exclude<TabType, 'all'>[] = ['registrations', 'delegations', 'chairboard_apps', 'admin_apps', 'press_apps'];
       const results: any = {};
       
       for (const tab of tabs) {
@@ -98,7 +98,25 @@ const AdminDashboard: React.FC = () => {
 
   // Filtered data for active tab
   const filteredData = useMemo(() => {
-    const currentData = data[activeTab];
+    let currentData: any[] = [];
+    if (activeTab === 'all') {
+      currentData = [
+        ...data.registrations.map(item => ({ ...item, app_type: 'Delegate' })),
+        ...data.delegations.map(item => ({ ...item, app_type: 'Delegation' })),
+        ...data.chairboard_apps.map(item => ({ ...item, app_type: 'Chairboard' })),
+        ...data.admin_apps.map(item => ({ ...item, app_type: 'Admin' })),
+        ...data.press_apps.map(item => ({ ...item, app_type: 'Press' }))
+      ];
+      // Sort mixed data by date
+      currentData.sort((a: any, b: any) => {
+        const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return dateB - dateA;
+      });
+    } else {
+      currentData = data[activeTab] || [];
+    }
+
     if (!searchQuery) return currentData;
     
     const lowerQuery = searchQuery.toLowerCase();
@@ -177,9 +195,30 @@ const AdminDashboard: React.FC = () => {
     );
   }
 
+  const getBadgeColor = (type: string) => {
+    switch (type) {
+      case 'Delegate': return '#aa3bff';
+      case 'Delegation': return '#3b82f6';
+      case 'Chairboard': return '#eab308';
+      case 'Admin': return '#10b981';
+      case 'Press': return '#f43f5e';
+      default: return '#6b7280';
+    }
+  };
+
   // Define table columns based on active tab
   const renderTableHeader = () => {
     switch (activeTab) {
+      case 'all':
+        return (
+          <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>School</th>
+            <th>Email</th>
+            <th>Date</th>
+          </tr>
+        );
       case 'registrations':
       case 'chairboard_apps':
       case 'admin_apps':
@@ -208,6 +247,33 @@ const AdminDashboard: React.FC = () => {
 
   const renderTableRow = (item: any) => {
     switch (activeTab) {
+      case 'all':
+        return (
+          <tr key={`${item.app_type}-${item.id}`} onClick={() => setSelectedItem(item)}>
+            <td>
+              <span style={{
+                background: getBadgeColor(item.app_type),
+                color: 'white',
+                padding: '4px 8px',
+                borderRadius: '6px',
+                fontSize: '0.75rem',
+                fontWeight: 'bold',
+                display: 'inline-block'
+              }}>
+                {item.app_type}
+              </span>
+            </td>
+            <td style={{fontWeight: 500}}>
+              {item.app_type === 'Delegation' ? item.delegation_name : item.full_name}
+              {item.app_type === 'Delegation' && (
+                <div style={{fontSize: '0.8rem', color: '#94a3b8'}}>{item.full_name} (Advisor)</div>
+              )}
+            </td>
+            <td>{item.school}</td>
+            <td>{item.email}</td>
+            <td className={styles.dateText}>{formatDate(item.created_at)}</td>
+          </tr>
+        );
       case 'registrations':
       case 'chairboard_apps':
       case 'admin_apps':
@@ -226,7 +292,7 @@ const AdminDashboard: React.FC = () => {
           <tr key={item.id} onClick={() => setSelectedItem(item)}>
             <td>
               <div style={{fontWeight: 500}}>{item.delegation_name}</div>
-              <div style={{fontSize: '0.8rem', color: 'var(--text)'}}>{item.full_name} (Advisor)</div>
+              <div style={{fontSize: '0.8rem', color: '#94a3b8'}}>{item.full_name} (Advisor)</div>
             </td>
             <td>{item.school}</td>
             <td>{item.expected_members}</td>
@@ -238,6 +304,7 @@ const AdminDashboard: React.FC = () => {
   };
 
   const tabs = [
+    { id: 'all', label: 'All', icon: <LayoutGrid size={18} /> },
     { id: 'registrations', label: 'Delegates', icon: <Users size={18} /> },
     { id: 'delegations', label: 'Delegations', icon: <Briefcase size={18} /> },
     { id: 'chairboard_apps', label: 'Chairboard', icon: <Award size={18} /> },
@@ -268,7 +335,9 @@ const AdminDashboard: React.FC = () => {
             <div className={styles.metricIcon}>{tab.icon}</div>
             <div className={styles.metricContent}>
               <span className={styles.metricValue}>
-                {loading ? '...' : data[tab.id as TabType].length}
+                {loading ? '...' : tab.id === 'all' 
+                  ? Object.values(data).reduce((acc, curr) => acc + curr.length, 0)
+                  : data[tab.id]?.length || 0}
               </span>
               <span className={styles.metricLabel}>{tab.label}</span>
             </div>
