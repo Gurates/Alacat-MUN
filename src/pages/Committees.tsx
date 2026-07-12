@@ -29,7 +29,7 @@ const Committees: React.FC = () => {
             transition={{ duration: 0.5 }}
           >
             <h1 className={styles.title}>Committees</h1>
-            <p className={styles.subtitle}>Explore the diverse range of committees offered at OceanMUN 2026.</p>
+            <p className={styles.subtitle}>Explore the diverse range of committees offered at AlaçatıMUN 2026.</p>
           </motion.div>
         </div>
       </section>

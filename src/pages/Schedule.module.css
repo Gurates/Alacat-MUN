@@ -1,0 +1,240 @@
+.schedulePage {
+  color: var(--color-text);
+  min-height: 100vh;
+  padding-bottom: 80px;
+  background-color: transparent;
+}
+
+.heroSection {
+  padding: 160px 20px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroSection::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ui-border), transparent);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--color-white);
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.daySelector {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+.dayButton {
+  padding: 12px 28px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--ui-bg);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  backdrop-filter: blur(8px);
+}
+
+.dayButton:hover {
+  background: var(--ui-bg-hover);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+.dayButton.active {
+  background: var(--color-accent);
+  color: var(--color-black);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 20px rgba(255, 199, 0, 0.3);
+}
+
+.scheduleContainer {
+  position: relative;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 150px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ui-border);
+}
+
+@media (max-width: 768px) {
+  .timeline::before {
+    left: 20px;
+  }
+}
+
+.eventCard {
+  display: flex;
+  gap: 40px;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .eventCard {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.timeColumn {
+  width: 130px;
+  flex-shrink: 0;
+  text-align: right;
+  padding-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .timeColumn {
+    width: auto;
+    text-align: left;
+    padding-top: 0;
+    padding-left: 48px;
+  }
+}
+
+.time {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--color-secondary);
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
+.detailsColumn {
+  flex-grow: 1;
+  background: var(--ui-bg);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  position: relative;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.detailsColumn::before {
+  content: '';
+  position: absolute;
+  left: -25.5px;
+  top: 28px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-background);
+  border: 2px solid var(--color-white);
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .detailsColumn {
+    margin-left: 48px;
+  }
+  .detailsColumn::before {
+    left: -35px;
+    top: 24px;
+  }
+}
+
+.detailsColumn:hover {
+  transform: translateX(5px);
+  background: var(--ui-bg-hover);
+}
+
+.detailsColumn:hover::before {
+  background: var(--color-white);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Event Types Colors */
+.detailsColumn.academic {
+  border-left: 3px solid var(--color-secondary);
+}
+.detailsColumn.academic::before {
+  border-color: var(--color-secondary);
+}
+
+.detailsColumn.social {
+  border-left: 3px solid var(--color-accent);
+}
+.detailsColumn.social::before {
+  border-color: var(--color-accent);
+}
+
+.detailsColumn.meal {
+  border-left: 3px solid #10b981;
+}
+.detailsColumn.meal::before {
+  border-color: #10b981;
+}
+
+.detailsColumn.general {
+  border-left: 3px solid #f43f5e;
+}
+.detailsColumn.general::before {
+  border-color: #f43f5e;
+}
+
+.eventTitle {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--color-white);
+  margin-bottom: 8px;
+}
+
+.eventLocation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+}
+
+.eventLocation svg {
+  opacity: 0.7;
+}
