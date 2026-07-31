@@ -2,32 +2,32 @@ import type { Committee } from '../types';
 
 export const committees: Committee[] = [
   {
-    id: 'unsc',
-    name: 'United Nations Security Council',
-    shortDescription: 'Addressing the most critical international security threats.',
-    description: 'The Security Council has primary responsibility for the maintenance of international peace and security. In this committee, delegates will navigate high-stakes diplomatic crises.',
-    difficulty: 'Advanced',
-    capacity: 15,
-    agenda: 'The situation in the South China Sea',
-    chair: {
-      name: 'Alexander Sterling',
-      role: 'President of the Security Council'
-    },
-    image: 'https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&q=80&w=800'
-  },
-  {
     id: 'disec',
     name: 'DISEC',
-    shortDescription: 'First Committee of the UN General Assembly.',
-    description: 'The Disarmament and International Security Committee deals with disarmament, global challenges, and threats to peace that affect the international community.',
+    shortDescription: 'Disarmament and International Security Committee.',
+    description: 'The First Committee of the UN General Assembly deals with disarmament, global challenges, and threats to peace that affect the international community.',
     difficulty: 'Intermediate',
     capacity: 60,
-    agenda: 'Regulation of Autonomous Weapons Systems',
+    agenda: 'Legitimacy of Foreign Military Bases in Sovereign States and Potential Risks',
     chair: {
-      name: 'Sophia Laurent',
+      name: 'TBD',
       role: 'Chairperson'
     },
-    image: 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?auto=format&fit=crop&q=80&w=800'
+    image: '/images/disec.png'
+  },
+  {
+    id: 'who',
+    name: 'WHO',
+    shortDescription: 'World Health Organization.',
+    description: 'The WHO is responsible for international public health. Delegates will address global health emergencies and promote international health equity.',
+    difficulty: 'Beginner',
+    capacity: 50,
+    agenda: 'Addressing the Global Mental Health Crisis Among Youth with a Focus on Social Media and Screen Addiction',
+    chair: {
+      name: 'TBD',
+      role: 'Chairperson'
+    },
+    image: '/images/who.png'
   },
   {
     id: 'unep',
@@ -36,25 +36,81 @@ export const committees: Committee[] = [
     description: 'UNEP coordinates the organization\'s environmental activities and assists developing countries in implementing environmentally sound policies and practices.',
     difficulty: 'Beginner',
     capacity: 40,
-    agenda: 'Protecting Deep Sea Marine Biodiversity',
+    agenda: 'Addressing the Global Environmental and Public Health Risks of Per- and Polyfluoroalkyl Substances (PFAS) through Sustainable Chemical Management',
     chair: {
-      name: 'James O\'Connor',
-      role: 'Executive Director'
+      name: 'TBD',
+      role: 'Chairperson'
     },
-    image: 'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?auto=format&fit=crop&q=80&w=800'
+    image: '/images/unep.png'
   },
   {
-    id: 'who',
-    name: 'World Health Organization',
-    shortDescription: 'Directing and coordinating authority on international health.',
-    description: 'The WHO is responsible for international public health. Delegates will address global health emergencies and promote international health equity.',
-    difficulty: 'Beginner',
-    capacity: 50,
-    agenda: 'Preparing for Waterborne Pandemics',
+    id: 'g20',
+    name: 'G20',
+    shortDescription: 'Group of Twenty.',
+    description: 'The G20 is the premier forum for international economic cooperation, bringing together the leaders of major developed and developing economies.',
+    difficulty: 'Advanced',
+    capacity: 25,
+    agenda: 'Open Agenda',
     chair: {
-      name: 'Dr. Elena Rostova',
-      role: 'Director-General'
+      name: 'TBD',
+      role: 'Chairperson'
     },
-    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800'
+    image: '/images/g20.png'
+  },
+  {
+    id: 'nato',
+    name: 'NATO',
+    shortDescription: 'North Atlantic Treaty Organization.',
+    description: 'NATO is an intergovernmental military alliance. It constitutes a system of collective defense whereby its independent member states agree to mutual defense.',
+    difficulty: 'Intermediate',
+    capacity: 30,
+    agenda: 'Coordinating NATO\'s collective response to the September 11 terrorist attacks',
+    chair: {
+      name: 'TBD',
+      role: 'Secretary General'
+    },
+    image: '/images/nato.png'
+  },
+  {
+    id: 'himf',
+    name: 'H-IMF',
+    shortDescription: 'Historical International Monetary Fund.',
+    description: 'The Historical IMF committee focuses on major global financial crises from the past, requiring delegates to navigate complex economic restructuring.',
+    difficulty: 'Advanced',
+    capacity: 25,
+    agenda: 'The 1980s Latin American Debt Crisis',
+    chair: {
+      name: 'TBD',
+      role: 'Managing Director'
+    },
+    image: '/images/himf.png'
+  },
+  {
+    id: 'fcc',
+    name: 'FCC',
+    shortDescription: 'Fallout Crisis Committee.',
+    description: 'A special crisis committee set in the post-apocalyptic Fallout universe. Delegates must manage resources and navigate treacherous wasteland politics.',
+    difficulty: 'Advanced',
+    capacity: 20,
+    agenda: 'Fallout',
+    chair: {
+      name: 'TBD',
+      role: 'Crisis Director'
+    },
+    image: '/images/fcc.png'
+  },
+  {
+    id: 'mkk',
+    name: 'MKK',
+    shortDescription: 'Müşterek Kriz Komitesi.',
+    description: 'A historical crisis committee focusing on the Great Heathen Army (Büyük Viking Ordusu). Navigate internal power struggles and external conquests.',
+    difficulty: 'Advanced',
+    capacity: 20,
+    agenda: 'Büyük Viking Ordusu',
+    chair: {
+      name: 'TBD',
+      role: 'Crisis Director'
+    },
+    image: '/images/mkk.png'
   }
 ];

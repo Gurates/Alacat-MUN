@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, Users, UserCheck } from 'lucide-react';
+import { Search, Filter, Award } from 'lucide-react';
 import Card from '../components/common/Card';
 import Input from '../components/common/Input';
 import Select from '../components/common/Select';
@@ -93,12 +93,8 @@ const Committees: React.FC = () => {
                       
                       <div className={styles.metaInfo}>
                         <div className={styles.metaItem}>
-                          <Users size={16} />
-                          <span>{committee.capacity} Delegates</span>
-                        </div>
-                        <div className={styles.metaItem}>
-                          <UserCheck size={16} />
-                          <span>Chair: {committee.chair.name}</span>
+                          <Award size={16} />
+                          <span>Level: {committee.difficulty}</span>
                         </div>
                       </div>
                       
