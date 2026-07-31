@@ -97,8 +97,6 @@ const Committees: React.FC = () => {
                           <span>Level: {committee.difficulty}</span>
                         </div>
                       </div>
-                      
-                      <button className={styles.learnMoreBtn}>Learn More</button>
                     </div>
                   </Card>
                 </motion.div>
