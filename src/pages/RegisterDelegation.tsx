@@ -144,6 +144,7 @@ const RegisterDelegation: React.FC = () => {
                   onChange={handleChange}
                   error={errors.fullName}
                   placeholder="Your full name"
+                  maxLength={100}
                 />
                 <Input
                   label="School / Institution"
@@ -152,6 +153,7 @@ const RegisterDelegation: React.FC = () => {
                   onChange={handleChange}
                   error={errors.school}
                   placeholder="Your school or institution"
+                  maxLength={150}
                 />
                 <Input
                   label="Delegation Name"
@@ -160,6 +162,7 @@ const RegisterDelegation: React.FC = () => {
                   onChange={handleChange}
                   error={errors.delegationName}
                   placeholder="Enter your delegation name"
+                  maxLength={150}
                 />
                 <Input
                   label="Expected Members"
@@ -169,6 +172,7 @@ const RegisterDelegation: React.FC = () => {
                   onChange={handleChange}
                   error={errors.expectedMembers}
                   placeholder="e.g. 12"
+                  max={200}
                 />
               </div>
             </div>
@@ -184,6 +188,7 @@ const RegisterDelegation: React.FC = () => {
                   onChange={handleChange}
                   error={errors.email}
                   placeholder="you@example.com"
+                  maxLength={100}
                 />
                 <Input
                   label="Your Phone"
@@ -193,6 +198,7 @@ const RegisterDelegation: React.FC = () => {
                   onChange={handleChange}
                   error={errors.phone}
                   placeholder="0555 000 00 00"
+                  maxLength={25}
                 />
               </div>
 
@@ -205,6 +211,7 @@ const RegisterDelegation: React.FC = () => {
                   onChange={handleChange}
                   placeholder={`student1@school.com\nstudent2@school.com`}
                   rows={4}
+                  maxLength={3000}
                 ></textarea>
                 {errors.allEmails && <span className={styles.error}>{errors.allEmails}</span>}
               </div>
@@ -218,6 +225,7 @@ const RegisterDelegation: React.FC = () => {
                   onChange={handleChange}
                   placeholder={`0555 000 00 00\n0555 111 11 11`}
                   rows={4}
+                  maxLength={1500}
                 ></textarea>
                 {errors.allPhones && <span className={styles.error}>{errors.allPhones}</span>}
               </div>
@@ -234,6 +242,7 @@ const RegisterDelegation: React.FC = () => {
                   onChange={handleChange}
                   placeholder="Any additional information you'd like us to know..."
                   rows={3}
+                  maxLength={2000}
                 ></textarea>
               </div>
             </div>

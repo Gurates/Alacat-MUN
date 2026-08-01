@@ -150,6 +150,7 @@ const RegisterPress: React.FC = () => {
                   onChange={handleChange}
                   error={errors.fullName}
                   placeholder="Your full name"
+                  maxLength={100}
                 />
                 <Input
                   label="School / Institution"
@@ -158,6 +159,7 @@ const RegisterPress: React.FC = () => {
                   onChange={handleChange}
                   error={errors.school}
                   placeholder="Your school or institution"
+                  maxLength={150}
                 />
                 <Select
                   label="Grade"
@@ -175,6 +177,7 @@ const RegisterPress: React.FC = () => {
                   onChange={handleChange}
                   error={errors.email}
                   placeholder="you@example.com"
+                  maxLength={100}
                 />
                 <Input
                   label="Phone"
@@ -184,6 +187,7 @@ const RegisterPress: React.FC = () => {
                   onChange={handleChange}
                   error={errors.phone}
                   placeholder="0555 000 00 00"
+                  maxLength={25}
                 />
               </div>
             </div>
@@ -199,6 +203,7 @@ const RegisterPress: React.FC = () => {
                   onChange={handleChange}
                   placeholder="List any newspapers, magazines, photography clubs, school publications, or other organizations you've been part of. Leave blank if none."
                   rows={4}
+                  maxLength={3000}
                 ></textarea>
               </div>
               <div className={styles.grid} style={{ marginTop: '1rem' }}>
@@ -208,6 +213,7 @@ const RegisterPress: React.FC = () => {
                   value={formData.cameraModel}
                   onChange={handleChange}
                   placeholder="e.g. Canon EOS 90D, Sony α6400, iPhone 15 Pro"
+                  maxLength={150}
                 />
               </div>
               <div className={styles.textareaWrapper} style={{ marginTop: '1rem' }}>
@@ -219,6 +225,7 @@ const RegisterPress: React.FC = () => {
                   onChange={handleChange}
                   placeholder="Names and contact details of teachers, editors, or coordinators who can speak to your work."
                   rows={3}
+                  maxLength={1000}
                 ></textarea>
               </div>
             </div>
@@ -234,6 +241,7 @@ const RegisterPress: React.FC = () => {
                   onChange={handleChange}
                   placeholder="Any additional information you'd like us to know..."
                   rows={3}
+                  maxLength={2000}
                 ></textarea>
               </div>
             </div>

@@ -194,6 +194,7 @@ const RegisterDelegate: React.FC = () => {
                   onChange={handleChange}
                   error={errors.fullName}
                   placeholder="Your full name"
+                  maxLength={100}
                 />
                 <Input
                   label="School / Institution *"
@@ -202,6 +203,7 @@ const RegisterDelegate: React.FC = () => {
                   onChange={handleChange}
                   error={errors.school}
                   placeholder="Your school or institution"
+                  maxLength={150}
                 />
                 <Select
                   label="Grade *"
@@ -225,6 +227,7 @@ const RegisterDelegate: React.FC = () => {
                   onChange={handleChange}
                   error={errors.email}
                   placeholder="you@example.com"
+                  maxLength={100}
                 />
                 <Input
                   label="Phone *"
@@ -234,6 +237,7 @@ const RegisterDelegate: React.FC = () => {
                   onChange={handleChange}
                   error={errors.phone}
                   placeholder="0555 000 00 00"
+                  maxLength={25}
                 />
               </div>
             </div>
@@ -340,6 +344,7 @@ const RegisterDelegate: React.FC = () => {
                     value={formData.shuttleFrom}
                     onChange={handleChange}
                     placeholder="e.g. Alsancak, Konak, Bornova"
+                    maxLength={100}
                   />
                 )}
               </div>

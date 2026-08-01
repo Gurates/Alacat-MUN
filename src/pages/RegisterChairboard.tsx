@@ -171,6 +171,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   error={errors.fullName}
                   placeholder="Your full name"
+                  maxLength={100}
                 />
                 <Input
                   label="School / Institution"
@@ -179,6 +180,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   error={errors.school}
                   placeholder="Your school or institution"
+                  maxLength={150}
                 />
                 <Select
                   label="Grade"
@@ -196,6 +198,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   error={errors.email}
                   placeholder="you@example.com"
+                  maxLength={100}
                 />
                 <Input
                   label="Phone"
@@ -205,6 +208,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   error={errors.phone}
                   placeholder="0555 000 00 00"
+                  maxLength={25}
                 />
               </div>
             </div>
@@ -220,6 +224,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   placeholder="List your previous MUN conferences, committees, and awards. Leave blank if this is your first conference."
                   rows={4}
+                  maxLength={3000}
                 ></textarea>
               </div>
             </div>
@@ -265,6 +270,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   placeholder="Why do you want to chair at AlaçatıMUN? Describe your leadership style and what you bring to the committee."
                   rows={7}
+                  maxLength={5000}
                 ></textarea>
                 {errors.motivationLetter && <span className={styles.error}>{errors.motivationLetter}</span>}
               </div>
@@ -281,6 +287,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   placeholder="If you are applying as a Crisis Director, share a sample directive you would inject into a committee. Leave blank if you are applying for a GA committee."
                   rows={4}
+                  maxLength={3000}
                 ></textarea>
               </div>
               <div className={styles.textareaWrapper} style={{ marginTop: '1rem' }}>
@@ -292,6 +299,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   placeholder="If you are applying for a GA committee, walk us through how you would run the session and establish speakers list. Leave blank if you are applying as a Crisis Director."
                   rows={4}
+                  maxLength={3000}
                 ></textarea>
               </div>
             </div>
@@ -307,6 +315,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   placeholder="Any additional information you'd like us to know..."
                   rows={3}
+                  maxLength={2000}
                 ></textarea>
               </div>
               <div className={styles.textareaWrapper} style={{ marginTop: '1rem' }}>
@@ -318,6 +327,7 @@ const RegisterChairboard: React.FC = () => {
                   onChange={handleChange}
                   placeholder="Names and contact details of people who can speak to your MUN experience (e.g. a previous chair or faculty advisor)."
                   rows={3}
+                  maxLength={1000}
                 ></textarea>
               </div>
             </div>
