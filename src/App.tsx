@@ -10,7 +10,6 @@ import RegisterChairboard from './pages/RegisterChairboard.tsx';
 import RegisterAdmin from './pages/RegisterAdmin.tsx';
 import RegisterPress from './pages/RegisterPress.tsx';
 import Teams from './pages/Teams.tsx';
-import Schedule from './pages/Schedule.tsx';
 import AdminDashboard from './pages/AdminDashboard.tsx';
 import IntroAnimation from './components/layout/IntroAnimation.tsx';
 import { TransitionProvider } from './components/layout/TransitionContext.tsx';
@@ -32,7 +31,6 @@ const App: React.FC = () => {
               <Route path="register/admin" element={<RegisterAdmin />} />
               <Route path="register/press" element={<RegisterPress />} />
               <Route path="teams" element={<Teams />} />
-              <Route path="schedule" element={<Schedule />} />
               <Route path="admin" element={<AdminDashboard />} />
             </Route>
           </Routes>
