@@ -146,10 +146,12 @@ const Home: React.FC = () => {
               <h3 className={styles.authorName}>Mehmet Tekin</h3>
             </div>
             <div className={styles.letterBody}>
-              <p>Distinguished Delegates, Advisors, Staff, and Partners,</p>
-              <p>It is a great honor to welcome you to Alaçatı MUN'26. I am Mehmet Tekin, and I proudly serve as your Director-General.</p>
-              <p>Together with our esteemed Secretary-General, we sacrificed years working both for our titles and for the legacy of AlaçatıMUN. And every single time, our experienced academic and organization teams have worked meticulously to both preserve and elevate this heritage to new heights.</p>
-              <p>Yours Sincerely,<br />Mehmet Tekin</p>
+              <p>Dear attendees,</p>
+              <p>Welcome to ALACATIMUN’26.</p>
+              <p>If you’re reading this you’re probably just as excited as we are. First of all thank you for choosing to be a part of our conference. It truly means a lot to us.</p>
+              <p>Model United Nations is much more than debates and resolutions. It is about meeting inspiring people stepping outside your comfort zone sharing your ideas and creating memories that stay with you long after the conference ends. As Director General my biggest hope is that every participant leaves alacatimun with something valuable whether it’s a new friendship a new perspective or simply the confidence to speak up and make a difference.</p>
+              <p>Finally I would like to thank my executive team and everyone who has been a part of this journey behind this conference are months of hard work endless discussions and countless hours of dedication I cannot wait to meet each and every one of you in beautiful Alacati. Until then enjoy the preparation believe in yourself and get ready for an unforgettable conference.</p>
+              <p>See you soon,<br />With my warmest regards~</p>
             </div>
           </motion.div>
 
