@@ -19,12 +19,12 @@ const Footer: React.FC = () => {
             Instagram: @alacatimun26
           </a>
           <a 
-            href="mailto:info@oceanmun.org" 
+            href="mailto:alacatimun.26@gmail.com" 
             style={{ fontSize: '0.9rem', color: 'white', textDecoration: 'none', transition: 'color 0.2s' }}
             onMouseOver={(e) => e.currentTarget.style.color = '#FFC700'}
             onMouseOut={(e) => e.currentTarget.style.color = 'white'}
           >
-            E-Mail Address: info@oceanmun.org
+            E-Mail Address: alacatimun.26@gmail.com
           </a>
         </div>
       </div>
