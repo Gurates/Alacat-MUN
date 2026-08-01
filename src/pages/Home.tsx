@@ -148,9 +148,10 @@ const Home: React.FC = () => {
             <div className={styles.letterBody}>
               <p>Dear attendees,</p>
               <p>Welcome to ALACATIMUN’26.</p>
-              <p>If you’re reading this you’re probably just as excited as we are. First of all thank you for choosing to be a part of our conference. It truly means a lot to us.</p>
-              <p>Model United Nations is much more than debates and resolutions. It is about meeting inspiring people stepping outside your comfort zone sharing your ideas and creating memories that stay with you long after the conference ends. As Director General my biggest hope is that every participant leaves alacatimun with something valuable whether it’s a new friendship a new perspective or simply the confidence to speak up and make a difference.</p>
-              <p>Finally I would like to thank my executive team and everyone who has been a part of this journey behind this conference are months of hard work endless discussions and countless hours of dedication I cannot wait to meet each and every one of you in beautiful Alacati. Until then enjoy the preparation believe in yourself and get ready for an unforgettable conference.</p>
+              <p>If you’re reading this you’re probably just as excited as we are. First of all, thank you for choosing to be a part of our conference. It truly means a lot to us.</p>
+              <p>As Director General, my biggest goal alongside our entire organization team has been to create an extraordinary experience where every participant feels welcomed, inspired, and supported. Behind this conference are months of hard work, passionate discussions, and endless hours of dedication from our incredible team to make ALACATIMUN’26 seamless and memorable for all of you.</p>
+              <p>Model United Nations is much more than debates and resolutions. It is about connecting with inspiring people, stepping outside your comfort zone, sharing ideas, and creating memories that stay with you forever. I hope each and every one of you leaves Alaçatı with valuable experiences, strong friendships, and unforgettable moments.</p>
+              <p>I would like to extend my heartfelt thanks to my executive board, team members, and everyone who contributed to this journey. I cannot wait to meet all of you in beautiful Alaçatı. Until then, enjoy your preparations and get ready for an exceptional conference.</p>
               <p>See you soon,<br />With my warmest regards~</p>
             </div>
           </motion.div>
