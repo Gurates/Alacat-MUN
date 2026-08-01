@@ -11,10 +11,10 @@ const AdminDashboard: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [authError, setAuthError] = useState('');
-  
+
   const [activeTab, setActiveTab] = useState<TabType>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // Data States
   const [data, setData] = useState<Record<string, any[]>>({
     registrations: [],
@@ -24,7 +24,7 @@ const AdminDashboard: React.FC = () => {
     press_apps: []
   });
   const [loading, setLoading] = useState(false);
-  
+
   // Modal State
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
 
@@ -46,8 +46,8 @@ const AdminDashboard: React.FC = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Use VITE_ADMIN_PASSWORD or fallback
-    const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'AlacatiMUN2026';
-    
+    const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+
     if (passwordInput === correctPassword) {
       setIsAuthenticated(true);
       sessionStorage.setItem('alacatimun_admin_session', 'true');
@@ -68,12 +68,12 @@ const AdminDashboard: React.FC = () => {
     try {
       const tabs: Exclude<TabType, 'all'>[] = ['registrations', 'delegations', 'chairboard_apps', 'admin_apps', 'press_apps'];
       const results: any = {};
-      
+
       for (const tab of tabs) {
         const { data: tableData, error } = await supabase
           .from(tab)
           .select('*');
-          
+
         if (error) {
           console.error(`Error fetching ${tab}:`, error);
           results[tab] = [];
@@ -87,7 +87,7 @@ const AdminDashboard: React.FC = () => {
           results[tab] = sorted;
         }
       }
-      
+
       setData(results);
     } catch (err) {
       console.error('Failed to fetch data', err);
@@ -118,7 +118,7 @@ const AdminDashboard: React.FC = () => {
     }
 
     if (!searchQuery) return currentData;
-    
+
     const lowerQuery = searchQuery.toLowerCase();
     return currentData.filter((item: any) => {
       const name = (item.full_name || '').toLowerCase();
@@ -130,13 +130,13 @@ const AdminDashboard: React.FC = () => {
   // CSV Export
   const exportToCSV = () => {
     if (filteredData.length === 0) return;
-    
+
     // Get headers from first item
     const headers = Object.keys(filteredData[0]);
-    
+
     const csvContent = [
       headers.join(','),
-      ...filteredData.map(item => 
+      ...filteredData.map(item =>
         headers.map(header => {
           let val = item[header];
           if (val === null || val === undefined) val = '';
@@ -145,7 +145,7 @@ const AdminDashboard: React.FC = () => {
         }).join(',')
       )
     ].join('\n');
-    
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -162,7 +162,7 @@ const AdminDashboard: React.FC = () => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-GB', {
       day: '2-digit', month: 'short', year: 'numeric',
-      hour: '2-digit', minute:'2-digit'
+      hour: '2-digit', minute: '2-digit'
     });
   };
 
@@ -174,7 +174,7 @@ const AdminDashboard: React.FC = () => {
             <h1 className={styles.authTitle}>Admin Login</h1>
             <form onSubmit={handleLogin} className={styles.authForm}>
               <div className={styles.inputGroup}>
-                <label className={styles.detailLabel} style={{marginBottom: '8px'}}>Passcode</label>
+                <label className={styles.detailLabel} style={{ marginBottom: '8px' }}>Passcode</label>
                 <input
                   type="password"
                   value={passwordInput}
@@ -185,7 +185,7 @@ const AdminDashboard: React.FC = () => {
                 />
               </div>
               {authError && <div className={styles.authError}>{authError}</div>}
-              <Button type="submit" variant="primary" fullWidth style={{marginTop: '8px'}}>
+              <Button type="submit" variant="primary" fullWidth style={{ marginTop: '8px' }}>
                 Login
               </Button>
             </form>
@@ -263,10 +263,10 @@ const AdminDashboard: React.FC = () => {
                 {item.app_type}
               </span>
             </td>
-            <td style={{fontWeight: 500}}>
+            <td style={{ fontWeight: 500 }}>
               {item.app_type === 'Delegation' ? item.delegation_name : item.full_name}
               {item.app_type === 'Delegation' && (
-                <div style={{fontSize: '0.8rem', color: '#94a3b8'}}>{item.full_name} (Advisor)</div>
+                <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{item.full_name} (Advisor)</div>
               )}
             </td>
             <td>{item.school}</td>
@@ -280,7 +280,7 @@ const AdminDashboard: React.FC = () => {
       case 'press_apps':
         return (
           <tr key={item.id} onClick={() => setSelectedItem(item)}>
-            <td style={{fontWeight: 500}}>{item.full_name}</td>
+            <td style={{ fontWeight: 500 }}>{item.full_name}</td>
             <td>{item.school}</td>
             <td>{item.email}</td>
             <td>{item.phone}</td>
@@ -291,8 +291,8 @@ const AdminDashboard: React.FC = () => {
         return (
           <tr key={item.id} onClick={() => setSelectedItem(item)}>
             <td>
-              <div style={{fontWeight: 500}}>{item.delegation_name}</div>
-              <div style={{fontSize: '0.8rem', color: '#94a3b8'}}>{item.full_name} (Advisor)</div>
+              <div style={{ fontWeight: 500 }}>{item.delegation_name}</div>
+              <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{item.full_name} (Advisor)</div>
             </td>
             <td>{item.school}</td>
             <td>{item.expected_members}</td>
@@ -324,8 +324,8 @@ const AdminDashboard: React.FC = () => {
       {/* Metrics Grid */}
       <div className={styles.metricsGrid}>
         {tabs.map(tab => (
-          <div 
-            key={tab.id} 
+          <div
+            key={tab.id}
             className={`${styles.metricCard} ${activeTab === tab.id ? styles.active : ''}`}
             onClick={() => {
               setActiveTab(tab.id as TabType);
@@ -335,7 +335,7 @@ const AdminDashboard: React.FC = () => {
             <div className={styles.metricIcon}>{tab.icon}</div>
             <div className={styles.metricContent}>
               <span className={styles.metricValue}>
-                {loading ? '...' : tab.id === 'all' 
+                {loading ? '...' : tab.id === 'all'
                   ? Object.values(data).reduce((acc, curr) => acc + curr.length, 0)
                   : data[tab.id]?.length || 0}
               </span>
@@ -375,7 +375,7 @@ const AdminDashboard: React.FC = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        
+
         <button className={styles.exportButton} onClick={exportToCSV}>
           <Download size={18} />
           Export CSV
@@ -420,13 +420,13 @@ const AdminDashboard: React.FC = () => {
                 </button>
               </div>
               <div className={styles.modalBody}>
-                
+
                 {/* Basic Info */}
                 <div className={styles.detailCard}>
                   <div className={styles.twoCols}>
                     <div className={styles.detailGroup}>
                       <span className={styles.detailLabel}>Full Name</span>
-                      <span className={styles.detailValue} style={{fontWeight: 600}}>{selectedItem.full_name}</span>
+                      <span className={styles.detailValue} style={{ fontWeight: 600 }}>{selectedItem.full_name}</span>
                     </div>
                     <div className={styles.detailGroup}>
                       <span className={styles.detailLabel}>Date</span>
@@ -435,13 +435,13 @@ const AdminDashboard: React.FC = () => {
                     <div className={styles.detailGroup}>
                       <span className={styles.detailLabel}>Email</span>
                       <span className={styles.detailValue}>
-                        <a href={`mailto:${selectedItem.email}`} style={{color: 'var(--accent)'}}>{selectedItem.email}</a>
+                        <a href={`mailto:${selectedItem.email}`} style={{ color: 'var(--accent)' }}>{selectedItem.email}</a>
                       </span>
                     </div>
                     <div className={styles.detailGroup}>
                       <span className={styles.detailLabel}>Phone</span>
                       <span className={styles.detailValue}>
-                        <a href={`tel:${selectedItem.phone}`} style={{color: 'var(--accent)'}}>{selectedItem.phone}</a>
+                        <a href={`tel:${selectedItem.phone}`} style={{ color: 'var(--accent)' }}>{selectedItem.phone}</a>
                       </span>
                     </div>
                     <div className={styles.detailGroup}>
@@ -462,10 +462,10 @@ const AdminDashboard: React.FC = () => {
                   // Skip basic fields we already rendered
                   if (['id', 'created_at', 'full_name', 'email', 'phone', 'school', 'grade'].includes(key)) return null;
                   if (value === null || value === '') return null;
-                  
+
                   // Format keys
                   const formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                  
+
                   return (
                     <div key={key} className={styles.detailGroup}>
                       <span className={styles.detailLabel}>{formattedKey}</span>
