@@ -16,10 +16,10 @@ interface TimeLeft {
 function calculateTimeLeft(target: string): TimeLeft {
   const diff = new Date(target).getTime() - Date.now();
   if (diff <= 0) {
-    return { days: '000', hours: '00', minutes: '00', seconds: '00', isOver: true };
+    return { days: '00', hours: '00', minutes: '00', seconds: '00', isOver: true };
   }
   return {
-    days: String(Math.floor(diff / 86400000)).padStart(3, '0'),
+    days: String(Math.floor(diff / 86400000)).padStart(2, '0'),
     hours: String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0'),
     minutes: String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0'),
     seconds: String(Math.floor((diff % 60000) / 1000)).padStart(2, '0'),
