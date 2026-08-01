@@ -87,7 +87,7 @@ const Home: React.FC = () => {
           style={{ y: textY, opacity: textOpacity }}
         >
           <h1 className={styles.title}>AlaçatıMUN</h1>
-          <p className={styles.dates}>2, 3 & 4 October 2027</p>
+          <p className={styles.dates}>2, 3 & 4 October 2026</p>
           <p className={styles.hashtag}>#diveintodiplomacy</p>
           <Countdown targetDate="2027-01-02T09:00:00" />
         </motion.div>
@@ -117,7 +117,7 @@ const Home: React.FC = () => {
               <h2 className={styles.sectionTitle}>Letter from our esteemed Secretary-General</h2>
             </div>
             <div className={styles.authorInfo}>
-              <div className={styles.avatar}></div>
+              <img src="/images/mira.png" alt="Mira Belinda Baskıcı" className={styles.avatar} />
               <h3 className={styles.authorName}>Mira Belinda Baskıcı</h3>
             </div>
             <div className={styles.letterBody}>
@@ -142,7 +142,7 @@ const Home: React.FC = () => {
               <h2 className={styles.sectionTitle}>Letter from our esteemed Director-General</h2>
             </div>
             <div className={styles.authorInfo}>
-              <div className={styles.avatar}></div>
+              <img src="/images/mehmet.png" alt="Mehmet Tekin" className={styles.avatar} />
               <h3 className={styles.authorName}>Mehmet Tekin</h3>
             </div>
             <div className={styles.letterBody}>
