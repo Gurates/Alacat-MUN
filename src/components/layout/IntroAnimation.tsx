@@ -314,7 +314,7 @@ const IntroAnimation: React.FC = () => {
 
       <div className={styles.titleContainer}>
         <h1 ref={titleRef} className={styles.title}>Alaçatı MUN</h1>
-        <p ref={subtitleRef} className={styles.subtitle}>#diveintodiplomacy</p>
+        <p ref={subtitleRef} className={styles.subtitle}>#wavesofdiplomacy</p>
       </div>
 
       <div className={styles.wipeWaveContainer}>

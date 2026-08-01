@@ -88,7 +88,7 @@ const Home: React.FC = () => {
         >
           <h1 className={styles.title}>AlaçatıMUN</h1>
           <p className={styles.dates}>2, 3 & 4 October 2026</p>
-          <p className={styles.hashtag}>#diveintodiplomacy</p>
+          <p className={styles.hashtag}>#wavesofdiplomacy</p>
           <Countdown targetDate="2026-10-02T09:00:00" />
         </motion.div>
 

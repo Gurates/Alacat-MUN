@@ -88,13 +88,13 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
 
   return (
     <div className={styles.countdownContainer}>
-      <TimeUnit value={timeLeft.days} label="Gün" />
+      <TimeUnit value={timeLeft.days} label="Days" />
       <div className={styles.separator}>:</div>
-      <TimeUnit value={timeLeft.hours} label="Saat" />
+      <TimeUnit value={timeLeft.hours} label="Hours" />
       <div className={styles.separator}>:</div>
-      <TimeUnit value={timeLeft.minutes} label="Dakika" />
+      <TimeUnit value={timeLeft.minutes} label="Minutes" />
       <div className={styles.separator}>:</div>
-      <TimeUnit value={timeLeft.seconds} label="Saniye" />
+      <TimeUnit value={timeLeft.seconds} label="Seconds" />
     </div>
   );
 };
