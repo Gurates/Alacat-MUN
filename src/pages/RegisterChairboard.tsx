@@ -65,24 +65,24 @@ const RegisterChairboard: React.FC = () => {
     if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
     if (!formData.school.trim()) newErrors.school = 'School is required';
     if (!formData.grade) newErrors.grade = 'Grade is required';
-    
+
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
     if (!formData.pref1) newErrors.pref1 = '1st choice is required';
     if (!formData.pref2) newErrors.pref2 = '2nd choice is required';
     if (!formData.pref3) newErrors.pref3 = '3rd choice is required';
-    
+
     if (!formData.motivationLetter.trim()) {
       newErrors.motivationLetter = 'Motivation letter is required';
     } else if (formData.motivationLetter.trim().length < 150) {
       newErrors.motivationLetter = 'Motivation letter must be at least 150 characters';
     }
-    
+
     if (!formData.qAiSuspicion.trim()) newErrors.qAiSuspicion = 'Please answer this question';
     if (!formData.qFinalDocuments.trim()) newErrors.qFinalDocuments = 'Please answer this question';
     if (!formData.qDisagreement.trim()) newErrors.qDisagreement = 'Please answer this question';
@@ -97,7 +97,7 @@ const RegisterChairboard: React.FC = () => {
     e.preventDefault();
     if (validate()) {
       setIsSubmitting(true);
-      
+
       try {
         const { error } = await supabase
           .from('chairboard_apps')
@@ -130,7 +130,7 @@ const RegisterChairboard: React.FC = () => {
         if (error) {
           throw error;
         }
-        
+
         setIsSuccess(true);
       } catch (error: any) {
         console.error('Error submitting application:', error.message);
@@ -326,7 +326,7 @@ const RegisterChairboard: React.FC = () => {
 
             <div className={styles.formSection}>
               <h3 className={styles.sectionTitle}>Scenario Questions</h3>
-              
+
               <div className={styles.textareaWrapper}>
                 <label className={styles.label}>You have listened to a delegate's speeches and you suspect that the delegate is using AI. What would you do? *</label>
                 <textarea
@@ -369,7 +369,7 @@ const RegisterChairboard: React.FC = () => {
               </div>
 
               <div className={styles.textareaWrapper} style={{ marginTop: '1rem' }}>
-                <label className={styles.label}>There is 1 session left and half of the resolution paper has been written. What would you do in the last session to finish the resolution paper? (for ga appliers)</label>
+                <label className={styles.label}>There is 1 session left and half of the final document hasn't been written. What would you do in the last session to finish the final document?</label>
                 <textarea
                   className={styles.textarea}
                   name="qResolutionPaper"
@@ -414,7 +414,7 @@ const RegisterChairboard: React.FC = () => {
                   ]}
                   error={errors.shuttle}
                 />
-                
+
                 <Select
                   label="Will you be using the accommodation?"
                   name="accommodation"
