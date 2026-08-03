@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
 import Input from '../components/common/Input';
+import Select from '../components/common/Select';
 import Button from '../components/common/Button';
 import { supabase } from '../lib/supabase';
 import styles from './Register.module.css';
@@ -14,9 +15,10 @@ const RegisterDelegation: React.FC = () => {
     expectedMembers: '',
     email: '',
     phone: '',
-    allEmails: '',
     allPhones: '',
-    message: ''
+    message: '',
+    shuttle: '',
+    accommodation: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -53,6 +55,8 @@ const RegisterDelegation: React.FC = () => {
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
     if (!formData.allEmails.trim()) newErrors.allEmails = 'All member emails are required';
     if (!formData.allPhones.trim()) newErrors.allPhones = 'All member phones are required';
+    if (!formData.shuttle) newErrors.shuttle = 'Please select your shuttle preference';
+    if (!formData.accommodation) newErrors.accommodation = 'Please select your accommodation preference';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -76,7 +80,9 @@ const RegisterDelegation: React.FC = () => {
               phone: formData.phone,
               all_emails: formData.allEmails,
               all_phones: formData.allPhones,
-              message: formData.message
+              message: formData.message,
+              shuttle: formData.shuttle,
+              accommodation: formData.accommodation === 'yes'
             }
           ]);
 
@@ -228,6 +234,40 @@ const RegisterDelegation: React.FC = () => {
                   maxLength={1500}
                 ></textarea>
                 {errors.allPhones && <span className={styles.error}>{errors.allPhones}</span>}
+              </div>
+            </div>
+
+            <div className={styles.formSection}>
+              <h3 className={styles.sectionTitle}>Logistics *</h3>
+              <div className={styles.grid}>
+                <Select
+                  label="Which shuttle will you use?"
+                  name="shuttle"
+                  value={formData.shuttle}
+                  onChange={handleChange}
+                  options={[
+                    { value: '', label: 'Select a shuttle...' },
+                    { value: 'Halkapınar', label: 'Halkapınar' },
+                    { value: 'Karşıyaka', label: 'Karşıyaka' },
+                    { value: 'Fahrettin Altay', label: 'Fahrettin Altay' },
+                    { value: 'Torbalı', label: 'Torbalı' },
+                    { value: 'I will not use a shuttle', label: 'I will not use a shuttle' }
+                  ]}
+                  error={errors.shuttle}
+                />
+                
+                <Select
+                  label="Will you be using the accommodation?"
+                  name="accommodation"
+                  value={formData.accommodation}
+                  onChange={handleChange}
+                  options={[
+                    { value: '', label: 'Select...' },
+                    { value: 'yes', label: 'Yes' },
+                    { value: 'no', label: 'No' }
+                  ]}
+                  error={errors.accommodation}
+                />
               </div>
             </div>
 

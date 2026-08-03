@@ -20,10 +20,10 @@ const RegisterDelegate: React.FC = () => {
     committeePreference2: '',
     committeePreference3: '',
     motivationLetter: '',
-    shuttleWanted: '',
-    shuttleFrom: '',
     message: '',
-    references: ''
+    references: '',
+    shuttle: '',
+    accommodation: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -77,6 +77,12 @@ const RegisterDelegate: React.FC = () => {
     if (!formData.motivationLetter.trim() || formData.motivationLetter.trim().length < 150) {
       newErrors.motivationLetter = `Motivation letter must be at least 150 characters. (${formData.motivationLetter.trim().length}/150)`;
     }
+    if (!formData.shuttle) {
+      newErrors.shuttle = 'Please select your shuttle preference.';
+    }
+    if (!formData.accommodation) {
+      newErrors.accommodation = 'Please select your accommodation preference.';
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -102,8 +108,8 @@ const RegisterDelegate: React.FC = () => {
               committee_preference_2: formData.committeePreference2,
               committee_preference_3: formData.committeePreference3,
               motivation_letter: formData.motivationLetter,
-              shuttle_wanted: formData.shuttleWanted || 'no_preference',
-              shuttle_from: formData.shuttleWanted === 'yes' ? formData.shuttleFrom : null,
+              shuttle: formData.shuttle,
+              accommodation: formData.accommodation === 'yes',
               message: formData.message,
               references: formData.references
             }
@@ -324,29 +330,36 @@ const RegisterDelegate: React.FC = () => {
             </div>
 
             <div className={styles.formSection}>
-              <h3 className={styles.sectionTitle}>Shuttle Service <span className={styles.optionalTag}>(optional)</span></h3>
+              <h3 className={styles.sectionTitle}>Logistics *</h3>
               <div className={styles.grid}>
                 <Select
-                  label="Shuttle Preference"
-                  name="shuttleWanted"
-                  value={formData.shuttleWanted}
+                  label="Which shuttle will you use?"
+                  name="shuttle"
+                  value={formData.shuttle}
                   onChange={handleChange}
                   options={[
-                    { value: '', label: 'No preference' },
-                    { value: 'yes', label: 'Yes, I would like shuttle' },
-                    { value: 'no', label: 'No, I will arrange my own transport' }
+                    { value: '', label: 'Select a shuttle...' },
+                    { value: 'Halkapınar', label: 'Halkapınar' },
+                    { value: 'Karşıyaka', label: 'Karşıyaka' },
+                    { value: 'Fahrettin Altay', label: 'Fahrettin Altay' },
+                    { value: 'Torbalı', label: 'Torbalı' },
+                    { value: 'I will not use a shuttle', label: 'I will not use a shuttle' }
                   ]}
+                  error={errors.shuttle}
                 />
-                {formData.shuttleWanted === 'yes' && (
-                  <Input
-                    label="Pick-up Location"
-                    name="shuttleFrom"
-                    value={formData.shuttleFrom}
-                    onChange={handleChange}
-                    placeholder="e.g. Alsancak, Konak, Bornova"
-                    maxLength={100}
-                  />
-                )}
+                
+                <Select
+                  label="Will you be using the accommodation?"
+                  name="accommodation"
+                  value={formData.accommodation}
+                  onChange={handleChange}
+                  options={[
+                    { value: '', label: 'Select...' },
+                    { value: 'yes', label: 'Yes' },
+                    { value: 'no', label: 'No' }
+                  ]}
+                  error={errors.accommodation}
+                />
               </div>
             </div>
 

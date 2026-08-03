@@ -17,7 +17,9 @@ const RegisterPress: React.FC = () => {
     orgExpList: '',
     cameraModel: '',
     references: '',
-    message: ''
+    message: '',
+    shuttle: '',
+    accommodation: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -59,6 +61,8 @@ const RegisterPress: React.FC = () => {
     }
     
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    if (!formData.shuttle) newErrors.shuttle = 'Please select your shuttle preference';
+    if (!formData.accommodation) newErrors.accommodation = 'Please select your accommodation preference';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -82,7 +86,9 @@ const RegisterPress: React.FC = () => {
               org_exp_list: formData.orgExpList,
               camera_model: formData.cameraModel,
               references_text: formData.references,
-              message: formData.message
+              message: formData.message,
+              shuttle: formData.shuttle,
+              accommodation: formData.accommodation === 'yes'
             }
           ]);
 
@@ -227,6 +233,40 @@ const RegisterPress: React.FC = () => {
                   rows={3}
                   maxLength={1000}
                 ></textarea>
+              </div>
+            </div>
+
+            <div className={styles.formSection}>
+              <h3 className={styles.sectionTitle}>Logistics *</h3>
+              <div className={styles.grid}>
+                <Select
+                  label="Which shuttle will you use?"
+                  name="shuttle"
+                  value={formData.shuttle}
+                  onChange={handleChange}
+                  options={[
+                    { value: '', label: 'Select a shuttle...' },
+                    { value: 'Halkapınar', label: 'Halkapınar' },
+                    { value: 'Karşıyaka', label: 'Karşıyaka' },
+                    { value: 'Fahrettin Altay', label: 'Fahrettin Altay' },
+                    { value: 'Torbalı', label: 'Torbalı' },
+                    { value: 'I will not use a shuttle', label: 'I will not use a shuttle' }
+                  ]}
+                  error={errors.shuttle}
+                />
+                
+                <Select
+                  label="Will you be using the accommodation?"
+                  name="accommodation"
+                  value={formData.accommodation}
+                  onChange={handleChange}
+                  options={[
+                    { value: '', label: 'Select...' },
+                    { value: 'yes', label: 'Yes' },
+                    { value: 'no', label: 'No' }
+                  ]}
+                  error={errors.accommodation}
+                />
               </div>
             </div>
 

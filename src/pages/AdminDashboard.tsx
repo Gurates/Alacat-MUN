@@ -127,6 +127,44 @@ const AdminDashboard: React.FC = () => {
     });
   }, [data, activeTab, searchQuery]);
 
+  // Shuttle Aggregate
+  const shuttleStats = useMemo(() => {
+    const counts: Record<string, number> = {
+      'Halkapınar': 0,
+      'Karşıyaka': 0,
+      'Fahrettin Altay': 0,
+      'Torbalı': 0,
+      'I will not use a shuttle': 0,
+      'Not Answered': 0
+    };
+    
+    // Combine all forms
+    const allApps = [
+      ...data.registrations,
+      ...data.delegations,
+      ...data.chairboard_apps,
+      ...data.admin_apps,
+      ...data.press_apps
+    ];
+
+    allApps.forEach(app => {
+      // old schema used 'shuttle_wanted' and 'shuttle_from'
+      // new schema uses 'shuttle'
+      const choice = app.shuttle || (app.shuttle_wanted === 'yes' ? app.shuttle_from : (app.shuttle_wanted === 'no' ? 'I will not use a shuttle' : null));
+      
+      if (choice && counts[choice] !== undefined) {
+        counts[choice]++;
+      } else if (choice) {
+        // If it's an old value or different string
+        counts[choice] = (counts[choice] || 0) + 1;
+      } else {
+        counts['Not Answered']++;
+      }
+    });
+    
+    return counts;
+  }, [data]);
+
   // CSV Export
   const exportToCSV = () => {
     if (filteredData.length === 0) return;
@@ -345,6 +383,21 @@ const AdminDashboard: React.FC = () => {
         ))}
       </div>
 
+      {/* Shuttle Stats */}
+      <div className={styles.metricsGrid} style={{ marginTop: '1rem', borderTop: '1px solid var(--color-border)', paddingTop: '1rem' }}>
+        <div style={{ width: '100%', gridColumn: '1 / -1', marginBottom: '0.5rem' }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--color-text)' }}>Shuttle Statistics (Overall)</h3>
+        </div>
+        {Object.entries(shuttleStats).map(([station, count]) => (
+          <div key={station} className={styles.metricCard} style={{ cursor: 'default' }}>
+            <div className={styles.metricContent}>
+              <span className={styles.metricValue}>{count}</span>
+              <span className={styles.metricLabel}>{station}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Tabs */}
       <div className={styles.tabsContainer}>
         {tabs.map(tab => (
@@ -468,8 +521,11 @@ const AdminDashboard: React.FC = () => {
                     q_ai_suspicion: 'Q: Delegate AI Suspicion',
                     q_final_documents: 'Q: Final Documents',
                     q_directive_help: 'Q: Directive Help (Crisis)',
+                    q_resolution_paper: 'Q: Resolution Paper (GA)',
                     q_disagreement: 'Q: Chairboard Disagreement',
-                    app_type: 'Application Type'
+                    app_type: 'Application Type',
+                    shuttle: 'Q: Shuttle Choice',
+                    accommodation: 'Q: Will use accommodation?'
                   };
 
                   // Format keys

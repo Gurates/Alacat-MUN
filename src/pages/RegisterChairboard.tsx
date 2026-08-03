@@ -27,7 +27,10 @@ const RegisterChairboard: React.FC = () => {
     qAiSuspicion: '',
     qFinalDocuments: '',
     qDirectiveHelp: '',
-    qDisagreement: ''
+    qDisagreement: '',
+    qResolutionPaper: '',
+    shuttle: '',
+    accommodation: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -83,6 +86,8 @@ const RegisterChairboard: React.FC = () => {
     if (!formData.qAiSuspicion.trim()) newErrors.qAiSuspicion = 'Please answer this question';
     if (!formData.qFinalDocuments.trim()) newErrors.qFinalDocuments = 'Please answer this question';
     if (!formData.qDisagreement.trim()) newErrors.qDisagreement = 'Please answer this question';
+    if (!formData.shuttle) newErrors.shuttle = 'Please select your shuttle preference';
+    if (!formData.accommodation) newErrors.accommodation = 'Please select your accommodation preference';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -115,7 +120,10 @@ const RegisterChairboard: React.FC = () => {
               q_ai_suspicion: formData.qAiSuspicion,
               q_final_documents: formData.qFinalDocuments,
               q_directive_help: formData.qDirectiveHelp,
-              q_disagreement: formData.qDisagreement
+              q_disagreement: formData.qDisagreement,
+              q_resolution_paper: formData.qResolutionPaper,
+              shuttle: formData.shuttle,
+              accommodation: formData.accommodation === 'yes'
             }
           ]);
 
@@ -361,6 +369,19 @@ const RegisterChairboard: React.FC = () => {
               </div>
 
               <div className={styles.textareaWrapper} style={{ marginTop: '1rem' }}>
+                <label className={styles.label}>There is 1 session left and half of the resolution paper has been written. What would you do in the last session to finish the resolution paper? (for ga appliers)</label>
+                <textarea
+                  className={styles.textarea}
+                  name="qResolutionPaper"
+                  value={formData.qResolutionPaper}
+                  onChange={handleChange}
+                  placeholder="Your answer (Optional if not applying for GA)..."
+                  rows={4}
+                  maxLength={3000}
+                ></textarea>
+              </div>
+
+              <div className={styles.textareaWrapper} style={{ marginTop: '1rem' }}>
                 <label className={styles.label}>You and another Chairboard member had different opinions regarding a procedural matter, and the other Chairboard member insisted that their opinion was correct and this disagreement started to affect the committee. What would you do to resolve this issue? *</label>
                 <textarea
                   className={`${styles.textarea} ${errors.qDisagreement ? styles.textareaError : ''}`}
@@ -372,6 +393,40 @@ const RegisterChairboard: React.FC = () => {
                   maxLength={3000}
                 ></textarea>
                 {errors.qDisagreement && <span className={styles.error}>{errors.qDisagreement}</span>}
+              </div>
+            </div>
+
+            <div className={styles.formSection}>
+              <h3 className={styles.sectionTitle}>Logistics *</h3>
+              <div className={styles.grid}>
+                <Select
+                  label="Which shuttle will you use?"
+                  name="shuttle"
+                  value={formData.shuttle}
+                  onChange={handleChange}
+                  options={[
+                    { value: '', label: 'Select a shuttle...' },
+                    { value: 'Halkapınar', label: 'Halkapınar' },
+                    { value: 'Karşıyaka', label: 'Karşıyaka' },
+                    { value: 'Fahrettin Altay', label: 'Fahrettin Altay' },
+                    { value: 'Torbalı', label: 'Torbalı' },
+                    { value: 'I will not use a shuttle', label: 'I will not use a shuttle' }
+                  ]}
+                  error={errors.shuttle}
+                />
+                
+                <Select
+                  label="Will you be using the accommodation?"
+                  name="accommodation"
+                  value={formData.accommodation}
+                  onChange={handleChange}
+                  options={[
+                    { value: '', label: 'Select...' },
+                    { value: 'yes', label: 'Yes' },
+                    { value: 'no', label: 'No' }
+                  ]}
+                  error={errors.accommodation}
+                />
               </div>
             </div>
 
