@@ -15,6 +15,7 @@ const RegisterDelegation: React.FC = () => {
     expectedMembers: '',
     email: '',
     phone: '',
+    allEmails: '',
     allPhones: '',
     message: '',
     shuttle: '',
