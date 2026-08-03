@@ -463,13 +463,22 @@ const AdminDashboard: React.FC = () => {
                   if (['id', 'created_at', 'full_name', 'email', 'phone', 'school', 'grade'].includes(key)) return null;
                   if (value === null || value === '') return null;
 
+                  // Custom labels for long questions
+                  const customLabels: Record<string, string> = {
+                    q_ai_suspicion: 'Q: Delegate AI Suspicion',
+                    q_final_documents: 'Q: Final Documents',
+                    q_directive_help: 'Q: Directive Help (Crisis)',
+                    q_disagreement: 'Q: Chairboard Disagreement',
+                    app_type: 'Application Type'
+                  };
+
                   // Format keys
-                  const formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                  const formattedKey = customLabels[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
                   return (
                     <div key={key} className={styles.detailGroup}>
                       <span className={styles.detailLabel}>{formattedKey}</span>
-                      <span className={styles.detailValue}>{String(value)}</span>
+                      <span className={styles.detailValue} style={{ whiteSpace: 'pre-wrap' }}>{String(value)}</span>
                     </div>
                   );
                 })}

@@ -23,7 +23,11 @@ const RegisterChairboard: React.FC = () => {
     crisisDirective: '',
     gaProcedure: '',
     message: '',
-    references: ''
+    references: '',
+    qAiSuspicion: '',
+    qFinalDocuments: '',
+    qDirectiveHelp: '',
+    qDisagreement: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -75,6 +79,10 @@ const RegisterChairboard: React.FC = () => {
     } else if (formData.motivationLetter.trim().length < 150) {
       newErrors.motivationLetter = 'Motivation letter must be at least 150 characters';
     }
+    
+    if (!formData.qAiSuspicion.trim()) newErrors.qAiSuspicion = 'Please answer this question';
+    if (!formData.qFinalDocuments.trim()) newErrors.qFinalDocuments = 'Please answer this question';
+    if (!formData.qDisagreement.trim()) newErrors.qDisagreement = 'Please answer this question';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -103,7 +111,11 @@ const RegisterChairboard: React.FC = () => {
               crisis_directive: formData.crisisDirective,
               ga_procedure: formData.gaProcedure,
               message: formData.message,
-              references_text: formData.references
+              references_text: formData.references,
+              q_ai_suspicion: formData.qAiSuspicion,
+              q_final_documents: formData.qFinalDocuments,
+              q_directive_help: formData.qDirectiveHelp,
+              q_disagreement: formData.qDisagreement
             }
           ]);
 
@@ -301,6 +313,65 @@ const RegisterChairboard: React.FC = () => {
                   rows={4}
                   maxLength={3000}
                 ></textarea>
+              </div>
+            </div>
+
+            <div className={styles.formSection}>
+              <h3 className={styles.sectionTitle}>Scenario Questions</h3>
+              
+              <div className={styles.textareaWrapper}>
+                <label className={styles.label}>You have listened to a delegate's speeches and you suspect that the delegate is using AI. What would you do? *</label>
+                <textarea
+                  className={`${styles.textarea} ${errors.qAiSuspicion ? styles.textareaError : ''}`}
+                  name="qAiSuspicion"
+                  value={formData.qAiSuspicion}
+                  onChange={handleChange}
+                  placeholder="Your answer..."
+                  rows={4}
+                  maxLength={2000}
+                ></textarea>
+                {errors.qAiSuspicion && <span className={styles.error}>{errors.qAiSuspicion}</span>}
+              </div>
+
+              <div className={styles.textareaWrapper} style={{ marginTop: '1rem' }}>
+                <label className={styles.label}>Explain the final documents and their details (Resolution Paper, Declaration, Communiqué, Final Directive) *</label>
+                <textarea
+                  className={`${styles.textarea} ${errors.qFinalDocuments ? styles.textareaError : ''}`}
+                  name="qFinalDocuments"
+                  value={formData.qFinalDocuments}
+                  onChange={handleChange}
+                  placeholder="Your answer..."
+                  rows={4}
+                  maxLength={3000}
+                ></textarea>
+                {errors.qFinalDocuments && <span className={styles.error}>{errors.qFinalDocuments}</span>}
+              </div>
+
+              <div className={styles.textareaWrapper} style={{ marginTop: '1rem' }}>
+                <label className={styles.label}>One of your delegates is having troubles in writing a directive. What would you do to solve this issue? (for crisis applicants)</label>
+                <textarea
+                  className={styles.textarea}
+                  name="qDirectiveHelp"
+                  value={formData.qDirectiveHelp}
+                  onChange={handleChange}
+                  placeholder="Your answer (Optional if not applying for crisis)..."
+                  rows={4}
+                  maxLength={2000}
+                ></textarea>
+              </div>
+
+              <div className={styles.textareaWrapper} style={{ marginTop: '1rem' }}>
+                <label className={styles.label}>You and another Chairboard member had different opinions regarding a procedural matter, and the other Chairboard member insisted that their opinion was correct and this disagreement started to affect the committee. What would you do to resolve this issue? *</label>
+                <textarea
+                  className={`${styles.textarea} ${errors.qDisagreement ? styles.textareaError : ''}`}
+                  name="qDisagreement"
+                  value={formData.qDisagreement}
+                  onChange={handleChange}
+                  placeholder="Your answer..."
+                  rows={4}
+                  maxLength={3000}
+                ></textarea>
+                {errors.qDisagreement && <span className={styles.error}>{errors.qDisagreement}</span>}
               </div>
             </div>
 
