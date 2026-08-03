@@ -186,7 +186,7 @@ const RegisterChairboard: React.FC = () => {
                   maxLength={100}
                 />
                 <Input
-                  label="School / Institution"
+                  label="School"
                   name="school"
                   value={formData.school}
                   onChange={handleChange}
